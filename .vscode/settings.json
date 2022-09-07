@@ -1,0 +1,5 @@
+{
+	"angular.enable-strict-mode-prompt": false,
+	"appService.defaultWebAppToDeploy": "/subscriptions/4f5e0872-a971-48cd-8565-40098dd298f2/resourceGroups/appsvc_linux_centralus/providers/Microsoft.Web/sites/MovieStreamingAPI",
+	"appService.deploySubpath": "api"
+}
