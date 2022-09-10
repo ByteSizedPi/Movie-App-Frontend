@@ -18,12 +18,7 @@ export class StreamMovieDirective {
 
 	@HostListener("click") onClick = () => {
 		this.modalService.closeModal();
-		const { torrents } = this.streamMovie;
-		const { hash } = <Torrent>(
-			torrents.find(({ quality }) => quality === "720p")
-		);
-		// console.log(hash);
-		this.torrentService.hash = hash;
+		this.torrentService.movie = this.streamMovie;
 		this.router.navigate(["/watch"]);
 	};
 }

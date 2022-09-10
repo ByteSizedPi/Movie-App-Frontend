@@ -1,12 +1,11 @@
 import { HttpClient } from "@angular/common/http";
 import { EventEmitter, Injectable } from "@angular/core";
-import { Observable } from "rxjs";
-import { map, switchMap, tap } from "rxjs/operators";
-import { LocalStorage } from "src/app/core/services/local-storage.service";
+import { map, tap } from "rxjs/operators";
+import {
+	LocalStorage,
+	Session,
+} from "src/app/core/services/local-storage.service";
 import Movie from "../types/Movie";
-import { Session } from "../types/Other";
-import { User } from "../types/User";
-import { MoviesService } from "./movies.service";
 
 type UserShort = {
 	username: string;
@@ -27,14 +26,14 @@ export class UserService {
 
 	private username = "johan";
 
-	constructor(private http: HttpClient) {
-		const user = { username: "johan" };
+	constructor(private http: HttpClient, private localStorage: LocalStorage) {
+		const user = { username: "johanVenter" };
 		const url = "http://localhost:3000/login";
-		this.http.post<Session>(url, user).subscribe(LocalStorage.setSession);
+		this.http.post<Session>(url, user).subscribe(this.localStorage.setSession);
 	}
 
 	getHeaders = () => ({
-		headers: { Authorization: "Bearer " + LocalStorage.getItem("token") },
+		headers: { Authorization: "Bearer " + this.localStorage.getItem("token") },
 	});
 
 	httpGet = <T>(url: string) =>

@@ -8,7 +8,6 @@ import { MovieGroup } from "src/app/shared/models/Types";
 	styleUrls: ["./home.component.scss"],
 })
 export class HomeComponent {
-	constructor(public moviesService: MoviesService) {}
 	groups: MovieGroup[] = [
 		MovieGroup.NowPlaying,
 		MovieGroup.Popular,
@@ -16,4 +15,5 @@ export class HomeComponent {
 		MovieGroup.Upcoming,
 	];
 	header = MovieGroup.Trending;
+	constructor(public moviesService: MoviesService) {}
 }

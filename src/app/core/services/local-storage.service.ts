@@ -1,36 +1,43 @@
 import { Injectable } from "@angular/core";
-import { Session } from "src/app/shared/types/Other";
+
+export type Session = {
+	token: string;
+	movieHash: string;
+};
 
 type SessionKey = keyof Session;
-const keys: SessionKey[] = ["token"];
+const keys: SessionKey[] = ["token", "movieHash"];
 
 @Injectable({
 	providedIn: "root",
 })
 export class LocalStorage {
 	constructor() {}
-	static sessionExists = () => !!LocalStorage.getItem("token");
+	sessionExists = () => !!this.getItem("token");
 
 	//get item from localStorage
-	static getItem = (key: keyof Session) => {
+	getItem = (key: keyof Session) => {
 		let k = localStorage.getItem(key);
 		return k ? JSON.parse(k) : false;
 	};
 
 	//get session values from localStorage
-	static getSession = (): Session => {
+	getSession = (): Session => {
 		return Object.assign(
 			{},
-			...keys.map((key) => ({ [key]: LocalStorage.getItem(key) }))
+			...keys.map((key) => ({ [key]: this.getItem(key) }))
 		);
 	};
 
 	//set Session values
-	static setSession = (session: Session) => {
+	setSession = (session: Session) => {
 		for (const [key, value] of Object.entries(session))
 			localStorage.setItem(key, JSON.stringify(value));
 	};
 
-	static clearSession = () =>
-		keys.forEach((key) => localStorage.removeItem(key));
+	setItem = (key: SessionKey, value: string) => {
+		localStorage.setItem(key, JSON.stringify(value));
+	};
+
+	clearSession = () => keys.forEach((key) => localStorage.removeItem(key));
 }
