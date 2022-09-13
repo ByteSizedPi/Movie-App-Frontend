@@ -1,0 +1,28 @@
+<!-- <section> -->
+<video
+  *ngIf="movieStream"
+  autoplay
+  preload
+  controls
+  [poster]="movie | backdrop: 3"
+  type="video/mp4"
+  id="video-player"
+  [src]="movieStream | async"
+></video>
+
+<div class="error center" *ngIf="!movieStream">
+  <h1>ERROR!!</h1>
+</div>
+<!-- <div class="center" *ngIf="!movieStream">
+    <div class="lds-roller">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </div> -->
+<!-- </section> -->

@@ -1,0 +1,6 @@
+section {
+  position: relative;
+  z-index: 1;
+  margin-top: calc(var(--preview-height) - 8rem);
+  margin-bottom: calc(var(--ml) + 0.25rem);
+}
