@@ -1,15 +1,13 @@
-<p>header works!</p>
-<section *ngIf="movies">
+<section *ngIf="movies[0]">
   <img
-    imgLoad
-    (load)="colorsLoaded = true"
-    id="header-img"
-    [src]="movies[index] | backdrop: 3"
-    [ngStyle]="opacity(showImg)"
+    #bg
+    [imgCache]="movies[index] | backdrop : 3"
+    [style.opacity]="+showImg"
+    priority
   />
   <div class="gradient w-100"></div>
-  <div id="title-container" class="column end w-100">
-    <div class="title" [ngStyle]="opacity(colorsLoaded)">
+  <!-- <div id="title-container" class="column end w-100">
+    <div class="title" [style.opacity]="+showText">
       <h1>{{ movies[index].title }}</h1>
       <div class="button-container row">
         <button
@@ -30,5 +28,6 @@
         </button>
       </div>
     </div>
-  </div>
+  </div> -->
 </section>
+<!-- <section *ngIf="!movies" class="center bg"></section> -->

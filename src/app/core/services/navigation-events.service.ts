@@ -1,39 +1,34 @@
-import { Subscription } from 'rxjs';
+import {
+  combineLatest,
+  filter,
+  fromEvent,
+  Observable,
+  of,
+  Subscription,
+} from 'rxjs';
 import { Injectable, EventEmitter } from '@angular/core';
-import { NavigationStart, Router } from '@angular/router';
+import { NavigationEnd, NavigationStart, Router } from '@angular/router';
+import { every, map, startWith, tap, toArray } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class NavigationEventsService {
-  private navEvent: EventEmitter<boolean> = new EventEmitter();
-  navEventCreated: boolean = false;
-
   constructor(private router: Router) {}
 
-  init(params: {
-    url: string;
-    triggers: EventEmitter<boolean>[];
-  }): EventEmitter<boolean> {
-    if (this.navEventCreated) return this.navEvent;
-    this.navEventCreated = true;
-
-    params.triggers.forEach((sub) =>
-      sub.subscribe((e) => this.navEvent.emit(!e))
+  init(url: string, triggers: Observable<boolean>[] = []) {
+    let visState = fromEvent(document, 'visibilitychange').pipe(
+      map((_) => document.visibilityState === 'visible'),
+      startWith(true)
     );
 
-    this.router.events.subscribe((event) => {
-      if (event instanceof NavigationStart)
-        this.navEvent.emit(event.url === params.url);
-    });
+    let navEvent = this.router.events.pipe(
+      filter((e) => e instanceof NavigationEnd),
+      map((event) => (<NavigationEnd>event).url === url)
+    );
 
-    this.documentVisible();
-    return this.navEvent;
-  }
-
-  documentVisible() {
-    document.addEventListener('visibilitychange', () =>
-      this.navEvent.emit(document.visibilityState === 'visible')
+    return combineLatest([visState, navEvent, ...triggers]).pipe(
+      map((events) => events.every((e) => e))
     );
   }
 }

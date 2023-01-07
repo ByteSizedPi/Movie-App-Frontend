@@ -2,6 +2,9 @@ section {
   position: absolute;
   top: 0;
   left: 0;
+  color: white;
+  width: 100vw;
+  height: var(--preview-height);
 }
 
 img {
@@ -9,7 +12,10 @@ img {
   z-index: -1;
   width: 100vw;
   height: var(--preview-height);
-  object-position: center top;
+  object-position: center;
+  transition: opacity 0.3s;
+  opacity: 0;
+  animation: fade-in 0.3s;
 }
 
 h1 {
@@ -53,7 +59,7 @@ h1 {
     background-color: white;
     margin-right: 0.75rem;
     width: 6.75rem;
-    transition: filter 0.1s;
+    transition: filter 0.1s, background-color 0.1s;
 
     &:active {
       transform: scale(97%);
@@ -79,3 +85,16 @@ h1 {
     }
   }
 }
+
+// .bg {
+//   animation: huh 1s infinite alternate;
+
+//   @keyframes huh {
+//     from {
+//       background: linear-gradient(0deg, rgb(20, 20, 20) 0%, rgb(255, 0, 0) 100%);
+//     }
+//     to {
+//       background: linear-gradient(0deg, rgb(20, 20, 20) 0%, rgb(251, 255, 0) 100%);
+//     }
+//   }
+// }

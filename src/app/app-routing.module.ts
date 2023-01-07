@@ -11,8 +11,10 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent },
   // { path: 'login', component: LoginComponent },
   // { path: 'user', canActivate: [AuthGuardService], component: UserComponent },
+  { path: 'user', component: UserComponent },
   { path: 'watch', component: MoviePlayerComponent },
   { path: 'player', component: MoviePlayerComponent },
+  { path: 'login', component: LoginComponent },
 
   // {
   //   path: 'main', canActivate: [AuthGuardService], component: MainComponent, children: [

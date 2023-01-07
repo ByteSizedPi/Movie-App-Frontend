@@ -29,7 +29,7 @@ export class SearchService {
 
     let { searchMovies, getMovieGroup } = this.movies_service;
     this.emitSearch.emit(
-      query ? searchMovies(query) : getMovieGroup(MovieGroup.Trending)
+      query ? searchMovies(query) : getMovieGroup('trending')
     );
   };
 

@@ -8,12 +8,7 @@ import { MovieGroup } from 'src/app/shared/models/Types';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent {
-  groups: MovieGroup[] = [
-    MovieGroup.NowPlaying,
-    MovieGroup.Popular,
-    MovieGroup.TopRated,
-    MovieGroup.Upcoming,
-  ];
-  header = MovieGroup.Trending;
+  groups: MovieGroup[] = ['now_playing', 'popular', 'top_rated', 'upcoming'];
+  header: MovieGroup = 'trending';
   constructor(public moviesService: MoviesService) {}
 }

@@ -8,10 +8,9 @@ import { MovieGroup } from 'src/app/shared/models/Types';
   providedIn: 'root',
 })
 export class MoviesService {
-  constructor(private user_api: UserService, private http: HttpClient) {}
+  constructor(private userApi: UserService, private http: HttpClient) {}
 
   private BASE_URL = 'http://127.0.0.1:3000/movies/';
-  // private BASE_URL = "https://moviestreamingapi.azurewebsites.net/movies/";
 
   private httpGet = (query: string) =>
     this.http.get<Movie[]>(this.BASE_URL + query);
@@ -24,5 +23,5 @@ export class MoviesService {
 
   getSimilar = (tmdb_id: number) => this.httpGet(`similar=${tmdb_id}`);
 
-  getShowList = () => this.user_api.getShowList();
+  getShowList = () => this.userApi.getShowList();
 }

@@ -4,14 +4,15 @@ import Movie from '../types/Movie';
 
 @Pipe({
   name: 'backdrop',
+  pure: true,
 })
 export class BackdropPipe implements PipeTransform {
-  private backdropSizes = ['w300', 'w780', 'w1280', 'original'];
-  private BASE = 'https://image.tmdb.org/t/p/';
+  private readonly backdropSizes = ['w300', 'w780', 'w1280', 'original'];
+  private readonly BASE = 'https://image.tmdb.org/t/p/';
 
   transform({ backdrop: url }: Movie, res: Resolution): string {
     return url
       ? this.BASE + this.backdropSizes[res] + url
-      : 'src/assets/no-image-1.png';
+      : 'assets/no-image-1.png';
   }
 }

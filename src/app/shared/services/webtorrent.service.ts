@@ -9,9 +9,9 @@ import { Torrent } from '../models/Types';
   providedIn: 'root',
 })
 export class WebtorrentService {
+  // private BASE_URL = 'https://moviestreamingapi.azurewebsites.net/stream/';
   private BASE_URL = 'http://127.0.0.1:3000/stream/';
   movie: Movie;
-  // private BASE_URL = "https://moviestreamingapi.azurewebsites.net/stream/";
   constructor(private http: HttpClient) {}
 
   stream = (): Observable<string> | undefined => {

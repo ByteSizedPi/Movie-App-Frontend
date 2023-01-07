@@ -2,6 +2,7 @@ import { EventEmitter, Injectable } from '@angular/core';
 import { Id, BODY } from '../../services/Utils';
 import { MoviesService } from '../../services/movies.service';
 import Movie from '../../types/Movie';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -11,37 +12,36 @@ export class MovieModalService {
   isOpen = false;
   colorLoaded = false;
   onChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+  stateEvent = new Subject<Movie | null>();
 
-  constructor(private moviesService: MoviesService) {}
+  constructor(private moviesService: MoviesService) {
+    this.stateEvent.subscribe((movie) => {
+      if (movie) this.openModal(movie);
+      else this.closeModal();
+    });
+  }
 
   get movie() {
     return { ...this.curMovie };
   }
 
   openModal = (movie: Movie) => {
-    const open = () => {
-      this.onChange.emit(true);
-      this.curMovie = movie;
-      this.isOpen = true;
-      this.lockScroll();
-    };
-
-    if (this.isOpen) {
-      this.closeModal();
-      setTimeout(() => open(), 201);
-    } else {
-      open();
-    }
+    if (this.isOpen) this.closeModal();
+    setTimeout(
+      () => {
+        this.curMovie = movie;
+        this.lockScroll();
+        this.onChange.emit((this.isOpen = true));
+      },
+      this.isOpen ? 201 : 0
+    );
   };
 
   closeModal = () => {
     if (!this.isOpen) return;
     Id('movie-modal').style.animation = 'slide-out .2s forwards';
     Id('backdrop').style.animation = 'fade-out .2s forwards';
-    setTimeout(() => {
-      this.isOpen = false;
-      this.onChange.emit(false);
-    }, 200);
+    setTimeout(() => this.onChange.emit((this.isOpen = false)), 200);
     this.allowScroll();
   };
 

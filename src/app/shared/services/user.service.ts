@@ -29,7 +29,7 @@ export class UserService {
   constructor(private http: HttpClient, private localStorage: LocalStorage) {
     const user = { username: 'JohanVenter' };
     const url = 'http://localhost:3000/login';
-    this.http.post<Session>(url, user).subscribe(this.localStorage.setSession);
+    // this.http.post<Session>(url, user).subscribe(this.localStorage.setSession);
   }
 
   getHeaders = () => ({

@@ -1,4 +1,4 @@
-<h3>{{ title | asTitle | titlecase }}</h3>
+<h3 *ngIf="!dataLoaded || movies[0]">{{ title | asTitle | titlecase }}</h3>
 <div class="item-container" *ngIf="!dataLoaded || movies[0]">
   <section class="row w-100" (window:resize)="translate()" #scroller>
     <div
@@ -26,6 +26,6 @@
   ></i>
 </div>
 
-<div *ngIf="dataLoaded && !movies[0]">
+<!-- <div *ngIf="dataLoaded && !movies[0]">
   <h3>No Results</h3>
-</div>
+</div> -->

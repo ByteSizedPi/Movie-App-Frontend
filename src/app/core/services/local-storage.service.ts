@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
+import { CachedImages } from './img-cache.service';
 
 export type Session = {
   token: string;
   movieHash: string;
+  images: CachedImages;
 };
 
 type SessionKey = keyof Session;
-const keys: SessionKey[] = ['token', 'movieHash'];
+const keys: SessionKey[] = ['token', 'movieHash', 'images'];
 
 @Injectable({
   providedIn: 'root',
@@ -35,7 +37,7 @@ export class LocalStorage {
       localStorage.setItem(key, JSON.stringify(value));
   };
 
-  setItem = (key: SessionKey, value: string) => {
+  setItem = (key: SessionKey, value: any) => {
     localStorage.setItem(key, JSON.stringify(value));
   };
 

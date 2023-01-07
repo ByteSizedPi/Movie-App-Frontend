@@ -1,1 +1,7 @@
-<p>user works!</p>
+<section>
+  <img imgLoad [src]="bg | backdrop: 1" *ngIf="bg" />
+  <div class="bg"></div>
+  <div class="content">
+    <carousel [asyncMovies]="movies" *ngIf="movies" title="My List"></carousel>
+  </div>
+</section>

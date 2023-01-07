@@ -29,7 +29,7 @@ export default interface Movie {
   cast: {
     name: string;
     character_name: string;
-    url_small_image: string;
+    url_small_image?: string;
     imdb_code: string;
   }[];
 

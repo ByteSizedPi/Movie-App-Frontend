@@ -1,13 +1,20 @@
 import { Observable } from 'rxjs';
 import Movie from '../types/Movie';
 
-export enum MovieGroup {
-  NowPlaying = 'now_playing',
-  Popular = 'popular',
-  TopRated = 'top_rated',
-  Upcoming = 'upcoming',
-  Trending = 'trending',
-}
+// export enum MovieGroup {
+//   NowPlaying = 'now_playing',
+//   Popular = 'popular',
+//   TopRated = 'top_rated',
+//   Upcoming = 'upcoming',
+//   Trending = 'trending',
+// }
+
+export type MovieGroup =
+  | 'now_playing'
+  | 'popular'
+  | 'top_rated'
+  | 'upcoming'
+  | 'trending';
 
 export type Resolution = 0 | 1 | 2 | 3;
 
