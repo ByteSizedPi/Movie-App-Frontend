@@ -4,7 +4,6 @@ import { Palette } from '../models/Types';
 import { Injectable } from '@angular/core';
 import Vibrant from 'node-vibrant';
 import { Timer } from '../../test/Timer';
-
 @Injectable({
   providedIn: 'root',
 })
@@ -12,8 +11,9 @@ export class ColorsService {
   private palette: Palette;
 
   getPalette = (url: string): Observable<Palette> => {
-    let t = new Timer('getPalette');
-    t.next();
+    // this.altPalette(url);
+    // let t = new Timer('getPalette');
+    // t.next();
     return from(new Vibrant(url).getPalette()).pipe(
       map((palette) => ({
         vibrant: <string>palette.Vibrant?.hex,
@@ -22,8 +22,8 @@ export class ColorsService {
         lightMuted: <string>palette.LightMuted?.hex,
         darkVibrant: <string>palette.DarkVibrant?.hex,
         darkMuted: <string>palette.DarkMuted?.hex,
-      })),
-      tap((palette) => t.next())
+      }))
+      // tap((palette) => t.next())
     );
   };
   setPalette = (url: string) =>

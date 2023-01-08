@@ -1,8 +1,8 @@
-<app-header [asyncMovies]="moviesService.getMovieGroup(header)"></app-header>
-<!-- <section class="column">
+<app-header [asyncMovies]="header | asyncMovies"></app-header>
+<section class="column">
   <carousel
-    *ngFor="let group of groups; index as i"
-    [title]="groups[i]"
-    [asyncMovies]="moviesService.getMovieGroup(groups[i])"
+    *ngFor="let group of groups"
+    [title]="group"
+    [asyncMovies]="group | asyncMovies"
   ></carousel>
-</section> -->
+</section>

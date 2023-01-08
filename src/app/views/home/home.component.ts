@@ -11,4 +11,6 @@ export class HomeComponent {
   groups: MovieGroup[] = ['now_playing', 'popular', 'top_rated', 'upcoming'];
   header: MovieGroup = 'trending';
   constructor(public moviesService: MoviesService) {}
+
+  get = (group: MovieGroup) => this.moviesService.getMovieGroup(group);
 }

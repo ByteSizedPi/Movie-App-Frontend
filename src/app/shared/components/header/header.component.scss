@@ -12,10 +12,10 @@ img {
   z-index: -1;
   width: 100vw;
   height: var(--preview-height);
-  object-position: center;
-  transition: opacity 0.3s;
+  object-position: center top;
+  transition: opacity 0.5s;
   opacity: 0;
-  animation: fade-in 0.3s;
+  // animation: fade-in 0.3s;
 }
 
 h1 {
