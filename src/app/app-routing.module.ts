@@ -1,20 +1,24 @@
-import { MoviePlayerComponent } from './views/movie-player/movie-player.component';
-import { UserComponent } from './views/user/user.component';
-import { HomeComponent } from './views/home/home.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { HomeComponent } from './views/home/home.component';
 import { LoginComponent } from './views/login/login.component';
-import { AuthGuardService } from './core/services/auth-guard.service';
+import { MainComponent } from './views/main/main.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: 'home', component: HomeComponent },
+  { path: 'login', component: LoginComponent },
+  // { path: 'home', component: HomeComponent },
+  {
+    path: '',
+    // pathMatch: 'full',
+    component: MainComponent,
+    children: [{ path: 'browse', component: HomeComponent }],
+  },
+  { path: '**', redirectTo: 'login', pathMatch: 'full' },
   // { path: 'login', component: LoginComponent },
   // { path: 'user', canActivate: [AuthGuardService], component: UserComponent },
-  { path: 'user', component: UserComponent },
-  { path: 'watch', component: MoviePlayerComponent },
-  { path: 'player', component: MoviePlayerComponent },
-  { path: 'login', component: LoginComponent },
+  // { path: 'user', component: UserComponent },
+  // { path: 'watch', component: MoviePlayerComponent },
+  // { path: 'player', component: MoviePlayerComponent },
 
   // {
   //   path: 'main', canActivate: [AuthGuardService], component: MainComponent, children: [

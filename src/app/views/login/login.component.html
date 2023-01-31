@@ -1,1 +1,21 @@
-<app-header [asyncMovies]="moviesService.getMovieGroup(header)"></app-header>
+<img (imgLoad)="imgLoaded = true" src="assets/movies_bg.jpg" id="bg" />
+
+<section id="card" *ngIf="imgLoaded">
+  <h2>Login</h2>
+  <form class="column" [formGroup]="loginForm">
+    <input type="text" placeholder="Username" [formControl]="username" />
+    <input type="password" placeholder="Password" [formControl]="password" />
+    <button type="submit" id="sign-in">Sign In</button>
+    <asl-google-signin-button></asl-google-signin-button>
+
+    <button
+      type="button"
+      class="center"
+      id="google"
+      (click)="loginWithGoogle()"
+    >
+      <img src="assets/google.svg" alt="" />
+      Sign In with Google
+    </button>
+  </form>
+</section>

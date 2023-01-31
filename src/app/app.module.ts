@@ -19,8 +19,15 @@ import { DirectivesModule } from './shared/directives/directives.module';
 import { PipesModule } from './shared/pipes/pipes.module';
 import { HomeComponent } from './views/home/home.component';
 import { LoginComponent } from './views/login/login.component';
+import { MainComponent } from './views/main/main.component';
 import { MoviePlayerComponent } from './views/movie-player/movie-player.component';
 import { UserComponent } from './views/user/user.component';
+
+import {
+  GoogleLoginProvider,
+  SocialAuthServiceConfig,
+  SocialLoginModule,
+} from '@abacritt/angularx-social-login';
 
 @NgModule({
   declarations: [
@@ -36,6 +43,7 @@ import { UserComponent } from './views/user/user.component';
     SearchComponent,
     LoginComponent,
     ImgCacheDirective,
+    MainComponent,
   ],
   imports: [
     BrowserModule,
@@ -47,12 +55,27 @@ import { UserComponent } from './views/user/user.component';
     DirectivesModule,
     PipesModule,
     NgOptimizedImage,
+    SocialLoginModule,
   ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ImgInterceptor,
       multi: true,
+    },
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider(
+              '729640305434-d1hh5dvo407o8qkrhgmnvmq9eiihgr22.apps.googleusercontent.com'
+            ),
+          },
+        ],
+      } as SocialAuthServiceConfig,
     },
   ],
   bootstrap: [AppComponent],

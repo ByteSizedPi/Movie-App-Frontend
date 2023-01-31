@@ -41,11 +41,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
   @Input() asyncMovies: Observable<Movie[]>;
   @ViewChild('bg') bg: ElementRef<HTMLImageElement>;
   private offset = 0;
-  // index = 0;
   movies: Movie[] = [];
-  // colors: Palette[] = [];
   showImg = false;
   showText = false;
+  firstLoad: Subject<number> = new Subject();
+  firstLoaded = false;
   slideSub: Subscription;
   curMovie: Movie;
   moviesReady: Subject<number> = new Subject();
@@ -65,6 +65,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.slideSub.unsubscribe();
   }
 
+  loadFirst() {
+    this.firstLoad.next(1);
+    this.firstLoaded = true;
+  }
+
   slideAnimation() {
     let modal = this.modalService.onChange.pipe(
       map((v) => !v),
@@ -79,10 +84,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     this.moviesReady
       .pipe(
-        tap((_) => {
-          this.curMovie = this.movies[0];
-          this.showImg = true;
-        }),
+        tap((_) => (this.curMovie = this.movies[0])),
+        switchMap((_) => this.firstLoad),
+        tap((_) => (this.showImg = true)),
         delay(500),
         tap((_) => (this.showText = true))
       )
@@ -121,6 +125,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         )
       )
       .subscribe((_) => {
+        console.log('next');
         if (!this.curMovie) this.moviesReady.next(1);
       });
   }

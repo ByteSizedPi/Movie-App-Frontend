@@ -1,9 +1,11 @@
 <section *ngIf="curMovie">
   <img
     #bg
+    id="bg"
     [imgCache]="curMovie | backdrop : 3"
     [style.opacity]="+showImg"
     priority
+    (load)="loadFirst()"
   />
   <div class="gradient w-100"></div>
   <div id="title-container" class="column end w-100">
