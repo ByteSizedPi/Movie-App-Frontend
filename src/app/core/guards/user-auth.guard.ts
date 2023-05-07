@@ -26,7 +26,9 @@ export class UserAuthGuard implements CanActivate {
                     this.router.navigate(['/login']);
                     return of(false);
                 }),
-                map((res) => true)
+                map((res) => {
+                    return true;
+                })
             );
     }
 }

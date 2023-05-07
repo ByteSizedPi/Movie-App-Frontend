@@ -1,0 +1,55 @@
+dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+dialog {
+    background-color: #272727;
+    border-radius: 8px;
+    border: none;
+}
+
+h4 {
+    margin-top: 0;
+    color: white;
+    font-weight: 300;
+}
+
+.btn-container {
+    width: 100%;
+}
+
+button {
+    cursor: pointer;
+    color: white;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+
+    &:active {
+        transform: scale(0.98);
+    }
+}
+
+#logout {
+    background-color: rgb(211, 0, 0);
+
+    &:hover {
+        background-color: rgb(160, 0, 0);
+    }
+
+    &:active {
+        background-color: rgb(120, 0, 0);
+    }
+}
+
+#cancel {
+    background-color: #373737;
+
+    &:hover {
+        background-color: #474747;
+    }
+
+    &:active {
+        background-color: #575757;
+    }
+}

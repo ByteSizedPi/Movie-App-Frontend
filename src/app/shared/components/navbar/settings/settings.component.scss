@@ -1,0 +1,83 @@
+.settings-container {
+    position: relative;
+    padding-bottom: 0.5rem;
+
+    &:hover .settings {
+        background: #353535;
+    }
+}
+
+.icon {
+    position: relative;
+    width: 4rem;
+    height: 2.5rem;
+    border-radius: 8px;
+    margin: 0 0.5rem;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 10px;
+    cursor: pointer;
+    padding: 0.2rem;
+}
+
+.settings {
+    background: #272727;
+    transition: background 0.2s;
+}
+
+.dropdown-container {
+    position: absolute;
+    margin: 0 0.5rem;
+    top: 100%;
+    right: 0;
+    width: 10rem;
+    background: #272727;
+    border-radius: 8px;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 10px;
+    padding: 0.5rem;
+    z-index: 1;
+
+    // opacity: 0;
+    // width: 0;
+    overflow: hidden;
+    transition: opacity 0.1s, width 0.1s;
+}
+
+.closed {
+    opacity: 0;
+    width: 0;
+}
+
+.open {
+    opacity: 1;
+    width: 10rem;
+}
+
+button {
+    cursor: pointer;
+    text-align: left;
+    color: white;
+    font-size: 1rem;
+    width: 100%;
+    background-color: #272727;
+    padding: 0.5rem;
+    border-radius: 5px;
+    transition: background-color 0.1s;
+    margin-bottom: 0.5rem;
+
+    &:hover {
+        background-color: #353535;
+    }
+}
+
+#logout {
+    text-align: center;
+    background-color: rgb(211, 0, 0);
+    margin-bottom: 0;
+    &:hover {
+        background-color: rgb(160, 0, 0);
+    }
+
+    &:active {
+        background-color: rgb(120, 0, 0);
+        transform: scale(0.98);
+    }
+}

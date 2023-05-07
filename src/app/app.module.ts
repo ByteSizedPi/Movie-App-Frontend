@@ -28,6 +28,8 @@ import {
     SocialAuthServiceConfig,
     SocialLoginModule,
 } from '@abacritt/angularx-social-login';
+import { SettingsComponent } from './shared/components/navbar/settings/settings.component';
+import { DialogComponent } from './shared/components/dialog/dialog.component';
 
 @NgModule({
     declarations: [
@@ -44,6 +46,8 @@ import {
         LoginComponent,
         ImgCacheDirective,
         MainComponent,
+        SettingsComponent,
+        DialogComponent,
     ],
     imports: [
         BrowserModule,

@@ -1,0 +1,17 @@
+<dialog #dialog>
+    <div class="dlg-content column center">
+        <h4>Are you sure you want to log out?</h4>
+        <div class="btn-container space-between row">
+            <button id="logout" (click)="logout()" [disabled]="logOutPending">
+                log out
+            </button>
+            <button
+                id="cancel"
+                (click)="dialog.close()"
+                [disabled]="logOutPending"
+            >
+                cancel
+            </button>
+        </div>
+    </div>
+</dialog>

@@ -59,6 +59,14 @@ export class UserService {
             password,
         });
 
+    logout = () =>
+        this.httpPost('logout').pipe(
+            tap((res) => {
+                console.log(res);
+                document.cookie = '';
+            })
+        );
+
     test = () => this.httpGet('hello');
 
     getShowList = () => this.httpGet<Movie[]>('list');
@@ -79,7 +87,7 @@ export class UserService {
 
     userExists = () => this.user;
     // login = () => (this.user = true);
-    logout = () => (this.user = false);
+    // logout = () => (this.user = false);
 
     verifyUser = (body: { username: string; password: string }) =>
         this.http.post(this.BASE_URL, body).pipe(

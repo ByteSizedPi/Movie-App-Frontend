@@ -1,0 +1,12 @@
+<div class="settings-container" #settings>
+    <div class="settings center icon space-around">
+        <img src="assets/settings.svg" id="chat-img" alt="" />
+        <img src="assets/chevron-down-white.svg" id="chat-img" alt="" />
+    </div>
+    <div [ngClass]="'dropdown-container column ' + showMenu">
+        <button>preferences</button>
+        <button id="logout" (click)="dialog.open()">log out</button>
+    </div>
+</div>
+
+<generic-dialog #dialog></generic-dialog>

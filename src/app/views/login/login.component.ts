@@ -11,6 +11,7 @@ import {
     FormGroup,
     Validators,
 } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Observable, catchError, map } from 'rxjs';
 import { MoviesService } from 'src/app/shared/services/movies.service';
 import { UserService } from '../../shared/services/user.service';
@@ -42,7 +43,8 @@ export class LoginComponent implements OnInit {
         public moviesService: MoviesService,
         private userService: UserService,
         private formBuilder: FormBuilder,
-        private socialAuthService: SocialAuthService
+        private socialAuthService: SocialAuthService,
+        private router: Router
     ) {}
 
     ngOnInit() {
@@ -114,7 +116,7 @@ export class LoginComponent implements OnInit {
             .subscribe((res) => {
                 this.pendingLogin = false;
                 this.userService.test().subscribe((res) => {
-                    console.log(res);
+                    this.router.navigate(['/browse']);
                 });
             });
     }
