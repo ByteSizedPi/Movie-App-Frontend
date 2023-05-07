@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { NgOptimizedImage } from '@angular/common';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { YouTubePlayerModule } from '@angular/youtube-player';
 import { AppRoutingModule } from './app-routing.module';
@@ -24,60 +24,60 @@ import { MoviePlayerComponent } from './views/movie-player/movie-player.componen
 import { UserComponent } from './views/user/user.component';
 
 import {
-  GoogleLoginProvider,
-  SocialAuthServiceConfig,
-  SocialLoginModule,
+    GoogleLoginProvider,
+    SocialAuthServiceConfig,
+    SocialLoginModule,
 } from '@abacritt/angularx-social-login';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HomeComponent,
-    CarouselComponent,
-    HeaderComponent,
-    MovieModalComponent,
-    NavbarComponent,
-    UserComponent,
-    YtPlayerComponent,
-    MoviePlayerComponent,
-    SearchComponent,
-    LoginComponent,
-    ImgCacheDirective,
-    MainComponent,
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    YouTubePlayerModule,
-    FormsModule,
-    ReactiveFormsModule,
-    DirectivesModule,
-    PipesModule,
-    NgOptimizedImage,
-    SocialLoginModule,
-  ],
-  providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: ImgInterceptor,
-      multi: true,
-    },
-    {
-      provide: 'SocialAuthServiceConfig',
-      useValue: {
-        autoLogin: false,
-        providers: [
-          {
-            id: GoogleLoginProvider.PROVIDER_ID,
-            provider: new GoogleLoginProvider(
-              '729640305434-d1hh5dvo407o8qkrhgmnvmq9eiihgr22.apps.googleusercontent.com'
-            ),
-          },
-        ],
-      } as SocialAuthServiceConfig,
-    },
-  ],
-  bootstrap: [AppComponent],
+    declarations: [
+        AppComponent,
+        HomeComponent,
+        CarouselComponent,
+        HeaderComponent,
+        MovieModalComponent,
+        NavbarComponent,
+        UserComponent,
+        YtPlayerComponent,
+        MoviePlayerComponent,
+        SearchComponent,
+        LoginComponent,
+        ImgCacheDirective,
+        MainComponent,
+    ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        YouTubePlayerModule,
+        FormsModule,
+        ReactiveFormsModule,
+        DirectivesModule,
+        PipesModule,
+        NgOptimizedImage,
+        SocialLoginModule,
+    ],
+    providers: [
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: ImgInterceptor,
+            multi: true,
+        },
+        {
+            provide: 'SocialAuthServiceConfig',
+            useValue: {
+                autoLogin: false,
+                providers: [
+                    {
+                        id: GoogleLoginProvider.PROVIDER_ID,
+                        provider: new GoogleLoginProvider(
+                            '729640305434-d1hh5dvo407o8qkrhgmnvmq9eiihgr22.apps.googleusercontent.com'
+                        ),
+                    },
+                ],
+            } as SocialAuthServiceConfig,
+        },
+    ],
+    bootstrap: [AppComponent],
 })
 export class AppModule {}

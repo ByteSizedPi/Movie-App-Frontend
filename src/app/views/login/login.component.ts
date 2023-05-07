@@ -1,65 +1,130 @@
 import {
-  GoogleLoginProvider,
-  SocialAuthService,
-  SocialUser,
+    GoogleLoginProvider,
+    SocialAuthService,
+    SocialUser,
 } from '@abacritt/angularx-social-login';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
+    AbstractControl,
+    FormBuilder,
+    FormControl,
+    FormGroup,
+    Validators,
 } from '@angular/forms';
-import { MovieGroup } from 'src/app/shared/models/Types';
+import { Observable, catchError, map } from 'rxjs';
 import { MoviesService } from 'src/app/shared/services/movies.service';
+import { UserService } from '../../shared/services/user.service';
 
 // client info
 const client_id =
-  '729640305434-d1hh5dvo407o8qkrhgmnvmq9eiihgr22.apps.googleusercontent.com';
+    '729640305434-d1hh5dvo407o8qkrhgmnvmq9eiihgr22.apps.googleusercontent.com';
 const client_secret = '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';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-  imgLoaded = false;
-  header: MovieGroup = 'trending';
+    @ViewChild('usernameInput') usernameInput!: ElementRef<HTMLInputElement>;
+    usernameFocused = false;
+    imgLoaded = false;
+    invalidPassword: boolean = false;
+    pendingLogin: boolean = false;
 
-  loginForm!: FormGroup;
-  username: FormControl;
-  password: FormControl;
-  user!: SocialUser;
-  isLoggedin!: boolean;
+    loginForm!: FormGroup;
+    username: FormControl;
+    password: FormControl;
+    user!: SocialUser;
+    isLoggedin!: boolean;
 
-  constructor(
-    public moviesService: MoviesService,
-    private formBuilder: FormBuilder,
-    private socialAuthService: SocialAuthService
-  ) {}
+    constructor(
+        public moviesService: MoviesService,
+        private userService: UserService,
+        private formBuilder: FormBuilder,
+        private socialAuthService: SocialAuthService
+    ) {}
 
-  ngOnInit() {
-    this.username = new FormControl('', [Validators.required]);
-    this.password = new FormControl('', [Validators.required]);
-    this.loginForm = this.formBuilder.group({
-      username: this.username,
-      password: this.password,
-    });
+    ngOnInit() {
+        this.username = new FormControl(
+            '',
+            [Validators.required],
+            [this.usernameValidator.bind(this)]
+        );
 
-    this.socialAuthService.authState.subscribe((user) => {
-      this.user = user;
-      this.isLoggedin = user != null;
-      console.log(this.user);
-    });
-  }
+        this.password = new FormControl('', [Validators.required]);
+        this.loginForm = this.formBuilder.group({
+            username: this.username,
+            password: this.password,
+        });
 
-  loginWithGoogle(): void {
-    this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
-    // console.log(user);
-  }
+        this.socialAuthService.authState.subscribe((user) => {
+            this.user = user;
+            this.isLoggedin = user != null;
+            console.log(this.user);
+        });
+    }
 
-  logOut(): void {
-    this.socialAuthService.signOut();
-  }
+    bgLoaded(): void {
+        this.imgLoaded = true;
+        setTimeout(() => {
+            this.usernameInput.nativeElement.addEventListener(
+                'focus',
+                () => (this.usernameFocused = true)
+            );
+            this.usernameInput.nativeElement.addEventListener(
+                'blur',
+                () => (this.usernameFocused = false)
+            );
+        }, 0);
+
+        this.password.valueChanges.subscribe(() => {
+            this.invalidPassword = false;
+        });
+    }
+
+    usernameValidator(
+        control: AbstractControl
+    ): Observable<{ [key: string]: any } | null> {
+        return this.userService.verifyUsername(control.value).pipe(
+            map((res) => {
+                return res ? null : { usernameTaken: true };
+            })
+        );
+    }
+
+    validInput(): boolean {
+        const invalidInput =
+            this.username.invalid &&
+            this.username.touched &&
+            !this.usernameFocused;
+        return !invalidInput;
+    }
+
+    login(): void {
+        this.pendingLogin = true;
+        this.userService
+            .login(this.username.value, this.password.value)
+            .pipe(
+                catchError((err) => {
+                    this.invalidPassword = true;
+                    return 'error';
+                })
+            )
+            .subscribe((res) => {
+                this.pendingLogin = false;
+                this.userService.test().subscribe((res) => {
+                    console.log(res);
+                });
+            });
+    }
+
+    loginWithGoogle(): void {
+        this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
+        // console.log(user);
+    }
+
+    logOut(): void {
+        this.socialAuthService.signOut();
+    }
 }

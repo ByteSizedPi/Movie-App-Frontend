@@ -1,4 +1,4 @@
-<span id="backdrop" class="container" (click)="this.modal.closeModal()"></span>
+<span id="backdrop" class="container" (click)="modal.closeModal()"></span>
 <section>
   <div id="movie-modal" class="mh-100">
     <div class="trailer w-100">
@@ -11,7 +11,7 @@
         *ngIf="!modal.movie.yt_trailer"
         imgLoad
         class="backdrop"
-        [src]="modal.movie | backdrop: 3"
+        [src]="modal.movie | backdrop : 3"
         alt=""
       />
       <div class="footer w-100 column end">
@@ -56,7 +56,7 @@
         >
           <h3>Overview</h3>
           <h4>
-            {{ modal.movie.rating | number: "1.1-1" }}
+            {{ modal.movie.rating | number : "1.1-1" }}
             <i class="fas fa-star"></i>
           </h4>
           <h4>{{ modal.movie.year }}</h4>
@@ -111,7 +111,7 @@
               ${{ modal.movie.budget / 1000000 }}M
             </h4>
             <h4 *ngIf="modal.movie.revenue">
-              ${{ modal.movie.revenue / 1000000 | number: "1.0-0" }}M
+              ${{ modal.movie.revenue / 1000000 | number : "1.0-0" }}M
             </h4>
           </span>
           <!-- <div

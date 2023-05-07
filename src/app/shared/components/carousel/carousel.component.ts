@@ -1,4 +1,3 @@
-import { Observable } from 'rxjs';
 import {
   AfterViewInit,
   Component,
@@ -7,8 +6,9 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
+import { Observable } from 'rxjs';
 import { MovieModalService } from 'src/app/shared/components/movie-modal/movie-modal.service';
-import { constrain, For, EMPTYMOVIE } from 'src/app/shared/services/Utils';
+import { constrain, EMPTYMOVIE, For } from 'src/app/shared/services/Utils';
 import Movie from '../../types/Movie';
 
 @Component({

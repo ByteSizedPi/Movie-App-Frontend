@@ -125,7 +125,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
         )
       )
       .subscribe((_) => {
-        console.log('next');
         if (!this.curMovie) this.moviesReady.next(1);
       });
   }
