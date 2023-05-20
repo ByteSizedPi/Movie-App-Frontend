@@ -9,23 +9,23 @@ import Movie from 'src/app/shared/types/Movie';
     styleUrls: ['./user.component.scss'],
 })
 export class UserComponent implements OnInit {
-    movies: Observable<Movie[]> | undefined;
+    movies: Observable<Movie[]> | undefined = undefined;
     bg: Movie;
 
     constructor(public userService: UserService) {}
 
     ngOnInit(): void {
-        // this.getShowList();
-        // this.userService.listRefreshed.subscribe(this.getShowList);
-        // this.userService.getShowList().subscribe((movies) => {
-        //   if (!movies[0]) return;
-        //   const index = Math.round(Math.random() * movies.length);
-        //   this.bg = movies[index];
-        // });
+        this.getShowList();
+        this.userService.listRefreshed.subscribe(this.getShowList);
+        this.userService.getShowList().subscribe((movies) => {
+            if (!movies[0]) return;
+            const index = Math.round(Math.random() * (movies.length - 1));
+            this.bg = movies[index];
+        });
     }
 
     getShowList = () => {
-        // this.movies = undefined;
-        // setTimeout(() => (this.movies = this.userService.getShowList()), 0);
+        this.movies = undefined;
+        setTimeout(() => (this.movies = this.userService.getShowList()), 0);
     };
 }

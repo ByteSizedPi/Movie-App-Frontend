@@ -6,30 +6,28 @@ import {
 	Router,
 	RouterStateSnapshot,
 } from '@angular/router';
-import { Observable, map } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 @Injectable({
 	providedIn: 'root',
 })
-export class UserAuthGuard implements CanActivate {
+export class LoginRedirectGuard implements CanActivate {
 	constructor(private http: HttpClient, private router: Router) {}
 	canActivate(
 		route: ActivatedRouteSnapshot,
 		state: RouterStateSnapshot
 	): Observable<boolean> {
-		return this.http
-			.get<boolean>('http://localhost:3000/auth', {
-				withCredentials: true,
-			})
-			.pipe(
-				map((canNav) => {
-					if (!canNav) {
-						this.router.navigate(['/login']);
-						return false;
-					} else {
-						return true;
-					}
-				})
-			);
+		return of(true);
+
+		// return this.http
+		// 	.get<boolean>('http://localhost:3000/auth', {
+		// 		withCredentials: true,
+		// 	})
+		// 	.pipe(
+		// 		tap((loggedIn) => {
+		// 			console.log('loggedIn:', loggedIn);
+		// 		}),
+		// 		map((l) => !l)
+		// 	);
 	}
 }

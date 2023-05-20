@@ -14,7 +14,7 @@ import {
 import { Router } from '@angular/router';
 import { Observable, catchError, map } from 'rxjs';
 import { MoviesService } from 'src/app/shared/services/movies.service';
-import { UserService } from '../../shared/services/user.service';
+import { UserService } from '../../../shared/services/user.service';
 
 // client info
 const client_id =
@@ -22,11 +22,11 @@ const client_id =
 const client_secret = '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';
 
 @Component({
-    selector: 'app-login',
-    templateUrl: './login.component.html',
-    styleUrls: ['./login.component.scss'],
+    selector: 'app-signin',
+    templateUrl: './signin.component.html',
+    styleUrls: ['./signin.component.scss'],
 })
-export class LoginComponent implements OnInit {
+export class SigninComponent implements OnInit {
     @ViewChild('usernameInput') usernameInput!: ElementRef<HTMLInputElement>;
     usernameFocused = false;
     imgLoaded = false;
@@ -122,9 +122,5 @@ export class LoginComponent implements OnInit {
     loginWithGoogle(): void {
         this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
         // console.log(user);
-    }
-
-    logOut(): void {
-        this.socialAuthService.signOut();
     }
 }

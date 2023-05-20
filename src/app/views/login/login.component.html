@@ -1,51 +1,5 @@
 <img (imgLoad)="bgLoaded()" src="assets/movies_bg.jpg" id="bg" />
 
 <section id="card" *ngIf="imgLoaded">
-    <h2>Login</h2>
-    <form class="column" [formGroup]="loginForm">
-        <input
-            #usernameInput
-            type="text"
-            placeholder="Username"
-            [formControl]="username"
-            [ngClass]="validInput() ? '' : 'error'"
-            spellcheck="false"
-        />
-        <span [ngClass]="validInput() ? 'msg' : 'msg error-msg'">
-            Invalid Username
-        </span>
-        <input
-            type="password"
-            placeholder="Password"
-            [formControl]="password"
-            spellcheck="false"
-        />
-        <span [ngClass]="invalidPassword ? 'msg error-msg' : 'msg'">
-            Invalid Password
-        </span>
-        <button
-            type="submit"
-            id="sign-in"
-            (click)="login()"
-            [disabled]="
-                !username.valid ||
-                !password.valid ||
-                invalidPassword ||
-                pendingLogin
-            "
-        >
-            Sign In
-        </button>
-        <span>Other Login Options</span>
-        <div class="row center">
-            <asl-google-signin-button></asl-google-signin-button>
-        </div>
-
-        <!-- <button type="button" class="center row" id="google">
-      (click)="loginWithGoogle()"
-     <img src="assets/google.svg" alt="" />
-      Sign In with Google
-      <asl-google-signin-button></asl-google-signin-button>
-    </button> -->
-    </form>
+    <app-signin></app-signin>
 </section>

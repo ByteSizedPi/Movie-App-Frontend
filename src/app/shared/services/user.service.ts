@@ -23,17 +23,7 @@ export class UserService {
 
     private username = 'johan';
 
-    constructor(private http: HttpClient, private localStorage: LocalStorage) {
-        const user = { username: 'JohanVenter' };
-        const url = 'http://localhost:3000/login';
-        // this.http.post<Session>(url, user).subscribe(this.localStorage.setSession);
-    }
-
-    getHeaders = () => ({
-        headers: {
-            Authorization: 'Bearer ' + this.localStorage.getItem('token'),
-        },
-    });
+    constructor(private http: HttpClient, private localStorage: LocalStorage) {}
 
     httpGet = <T>(url: string, options = { withCredentials: true }) =>
         this.http.get<T>(this.BASE_URL + url, options);
@@ -46,7 +36,8 @@ export class UserService {
         return this.http.post<T>(this.BASE_URL + url, body, options);
     };
 
-    httpDelete = <T>(url: string) => this.http.delete<T>(this.BASE_URL + url);
+    httpDelete = <T>(url: string, options = { withCredentials: true }) =>
+        this.http.delete<T>(this.BASE_URL + url, options);
 
     verifyUsername = (username: string) =>
         this.httpGet<{ username: string | null }>(
@@ -67,18 +58,18 @@ export class UserService {
             })
         );
 
-    test = () => this.httpGet('hello');
-
-    getShowList = () => this.httpGet<Movie[]>('list');
-
-    getShowListIDs = () => this.httpGet<string[]>('list_ids');
-
-    refreshList = () => this.listRefreshed.emit(true);
+    getShowList = () =>
+        this.httpGet<{ list: Movie[] }>('list').pipe(map(({ list }) => list));
 
     addToList = (movie: Movie) =>
-        this.httpPost<Response>('list', { show: movie }).pipe(
-            tap(this.refreshList)
+        this.httpPost('list', { show: movie }).pipe(tap(this.refreshList));
+
+    getShowListIDs = () =>
+        this.httpGet<{ list: string[] }>('listids').pipe(
+            map(({ list }) => list)
         );
+
+    refreshList = () => this.listRefreshed.emit(true);
 
     removeFromList = ({ imdb_id }: Movie) =>
         this.httpDelete<Response>(`list/imdbid=${imdb_id}`).pipe(

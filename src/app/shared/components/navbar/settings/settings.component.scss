@@ -1,6 +1,6 @@
 .settings-container {
     position: relative;
-    padding-bottom: 0.5rem;
+    padding: 0.5rem 0;
 
     &:hover .settings {
         background: #353535;
@@ -8,6 +8,7 @@
 }
 
 .icon {
+    box-sizing: border-box;
     position: relative;
     width: 4rem;
     height: 2.5rem;
@@ -44,11 +45,13 @@
 .closed {
     opacity: 0;
     width: 0;
+    pointer-events: none;
 }
 
 .open {
     opacity: 1;
     width: 10rem;
+    pointer-events: all;
 }
 
 button {
