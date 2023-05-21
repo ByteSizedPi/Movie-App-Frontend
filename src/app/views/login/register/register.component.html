@@ -1,41 +1,36 @@
-<form class="column" [formGroup]="registerForm">
-    <!-- <input
-            #usernameInput
-            type="text"
-            placeholder="Username"
-            [formControl]="username"
-            [ngClass]="validInput() ? '' : 'error'"
-            spellcheck="false"
-        />
-        <span [ngClass]="validInput() ? 'msg' : 'msg error-msg'">
-            Invalid Username
-        </span>
-        <input
-            type="password"
-            placeholder="Password"
-            [formControl]="password"
-            spellcheck="false"
-        />
-        <span [ngClass]="invalidPassword ? 'msg error-msg' : 'msg'">
-            Invalid Password
-        </span>
-        <button
-            type="submit"
-            id="sign-in"
-            (click)="login()"
-            [disabled]="
-                !username.valid ||
-                !password.valid ||
-                invalidPassword ||
-                pendingLogin
-            "
-        >
-            Sign In
-        </button>
-        <span>Other Login Options</span>
-        <div class="row center">
-            <asl-google-signin-button></asl-google-signin-button>
-        </div> -->
-
-    <!-- </form> -->
+<form class="column" [formGroup]="registerForm" (ngSubmit)="register()">
+	<h2>Create Account</h2>
+	<cust-input
+		[control]="firstName"
+		placeholder="First Name"
+		errorMsg="please enter your name"
+	></cust-input>
+	<cust-input
+		[control]="lastName"
+		placeholder="Last Name"
+		errorMsg="please enter your last name"
+	></cust-input>
+	<cust-input
+		[control]="email"
+		placeholder="Email"
+		errorMsg="please enter a valid email"
+	></cust-input>
+	<cust-input
+		[control]="username"
+		placeholder="Username"
+		[errorMsg]="usernameErr"
+	></cust-input>
+	<cust-input
+		[control]="password"
+		placeholder="Password"
+		[errorMsg]="passwordErr"
+		type="password"
+	></cust-input>
+	<cust-input
+		[control]="confirmPassword"
+		placeholder="Confirm Password"
+		errorMsg="passwords do not match"
+		type="password"
+	></cust-input>
+	<button [disabled]="!registerForm.valid || pendingSubmit">Register</button>
 </form>

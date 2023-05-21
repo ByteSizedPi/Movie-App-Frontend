@@ -1,5 +1,7 @@
-<img (imgLoad)="bgLoaded()" src="assets/movies_bg.jpg" id="bg" />
+<img (imgLoad)="imgLoaded = true" src="assets/movies_bg.jpg" id="bg" />
 
-<section id="card" *ngIf="imgLoaded">
-    <app-signin></app-signin>
+<section *ngIf="imgLoaded" class="center">
+	<div class="container">
+		<router-outlet></router-outlet>
+	</div>
 </section>

@@ -1,0 +1,26 @@
+<section class="column center">
+	<div>
+		<input
+			#input
+			[type]="type"
+			[placeholder]="placeholder"
+			[formControl]="control"
+			[spellcheck]="spellcheck"
+			[ngClass]="errorMsgBorder"
+			(focus)="_focus()"
+			(blur)="_blur()"
+		/>
+		<button
+			tabindex="-1"
+			class="center"
+			*ngIf="type === 'password' && input.value !== ''"
+			(mousedown)="showPwd()"
+			(mouseup)="hidePwd()"
+			(mouseleave)="hidePwd()"
+			type="button"
+		>
+			<img #btnImg src="assets/eye-off-gray.svg" alt="" />
+		</button>
+	</div>
+	<span [ngClass]="errorMsgClass"> {{ errorMsg }}</span>
+</section>

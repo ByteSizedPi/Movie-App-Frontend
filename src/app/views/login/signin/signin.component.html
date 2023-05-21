@@ -1,40 +1,33 @@
-<form class="column" [formGroup]="loginForm">
-    <h2>Login</h2>
-    <input
-        #usernameInput
-        type="text"
-        placeholder="Username"
-        [formControl]="username"
-        [ngClass]="validInput() ? '' : 'error'"
-        spellcheck="false"
-    />
-    <span [ngClass]="validInput() ? 'msg' : 'msg error-msg'">
-        Invalid Username
-    </span>
-    <input
-        type="password"
-        placeholder="Password"
-        [formControl]="password"
-        spellcheck="false"
-    />
-    <span [ngClass]="invalidPassword ? 'msg error-msg' : 'msg'">
-        Invalid Password
-    </span>
-    <button
-        type="submit"
-        id="sign-in"
-        (click)="login()"
-        [disabled]="
-            !username.valid ||
-            !password.valid ||
-            invalidPassword ||
-            pendingLogin
-        "
-    >
-        Sign In
-    </button>
-    <span>Other Login Options</span>
-    <div class="row center">
-        <asl-google-signin-button></asl-google-signin-button>
-    </div>
+<form class="column" [formGroup]="loginForm" (ngSubmit)="login()">
+	<h2>Login</h2>
+	<cust-input
+		[control]="username"
+		errorMsg="invalid username"
+		placeholder="Username"
+	></cust-input>
+	<cust-input
+		[control]="password"
+		[errorMsg]="pwError"
+		placeholder="Password"
+		type="password"
+	></cust-input>
+	<button
+		type="submit"
+		id="sign-in"
+		[disabled]="!loginForm.valid || pendingLogin"
+	>
+		Sign In
+	</button>
+	<span>Other Login Options</span>
+	<div class="row center">
+		<asl-google-signin-button></asl-google-signin-button>
+	</div>
+	<span>or Sign Up</span>
+	<button
+		id="register"
+		type="button"
+		(click)="router.navigate(['auth/register'])"
+	>
+		Sign Up
+	</button>
 </form>

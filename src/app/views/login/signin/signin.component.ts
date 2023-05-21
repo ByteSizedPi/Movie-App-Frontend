@@ -1,126 +1,129 @@
 import {
-    GoogleLoginProvider,
-    SocialAuthService,
-    SocialUser,
+	GoogleLoginProvider,
+	SocialAuthService,
+	SocialUser,
 } from '@abacritt/angularx-social-login';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
-    AbstractControl,
-    FormBuilder,
-    FormControl,
-    FormGroup,
-    Validators,
+	AbstractControl,
+	FormBuilder,
+	FormControl,
+	FormGroup,
+	Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Observable, catchError, map } from 'rxjs';
+import {
+	Observable,
+	ReplaySubject,
+	catchError,
+	map,
+	of,
+	switchMap,
+	take,
+	timer,
+} from 'rxjs';
 import { MoviesService } from 'src/app/shared/services/movies.service';
 import { UserService } from '../../../shared/services/user.service';
 
 // client info
 const client_id =
-    '729640305434-d1hh5dvo407o8qkrhgmnvmq9eiihgr22.apps.googleusercontent.com';
+	'729640305434-d1hh5dvo407o8qkrhgmnvmq9eiihgr22.apps.googleusercontent.com';
 const client_secret = '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';
 
 @Component({
-    selector: 'app-signin',
-    templateUrl: './signin.component.html',
-    styleUrls: ['./signin.component.scss'],
+	selector: 'app-signin',
+	templateUrl: './signin.component.html',
+	styleUrls: ['./signin.component.scss'],
 })
 export class SigninComponent implements OnInit {
-    @ViewChild('usernameInput') usernameInput!: ElementRef<HTMLInputElement>;
-    usernameFocused = false;
-    imgLoaded = false;
-    invalidPassword: boolean = false;
-    pendingLogin: boolean = false;
+	validPw: ReplaySubject<boolean> = new ReplaySubject<boolean>();
+	imgLoaded = false;
 
-    loginForm!: FormGroup;
-    username: FormControl;
-    password: FormControl;
-    user!: SocialUser;
-    isLoggedin!: boolean;
+	pendingLogin: boolean = false;
 
-    constructor(
-        public moviesService: MoviesService,
-        private userService: UserService,
-        private formBuilder: FormBuilder,
-        private socialAuthService: SocialAuthService,
-        private router: Router
-    ) {}
+	loginForm!: FormGroup;
+	username: FormControl = new FormControl(
+		'',
+		[Validators.required],
+		[this.usernameValidator.bind(this)]
+	);
+	password: FormControl = new FormControl(
+		'',
+		[Validators.required],
+		[this.passwordValidator.bind(this)]
+	);
+	user!: SocialUser;
+	isLoggedin!: boolean;
 
-    ngOnInit() {
-        this.username = new FormControl(
-            '',
-            [Validators.required],
-            [this.usernameValidator.bind(this)]
-        );
+	pwError: string = 'invalid password';
 
-        this.password = new FormControl('', [Validators.required]);
-        this.loginForm = this.formBuilder.group({
-            username: this.username,
-            password: this.password,
-        });
+	constructor(
+		public moviesService: MoviesService,
+		private userService: UserService,
+		private formBuilder: FormBuilder,
+		private socialAuthService: SocialAuthService,
+		public router: Router
+	) {}
 
-        this.socialAuthService.authState.subscribe((user) => {
-            this.user = user;
-            this.isLoggedin = user != null;
-            console.log(this.user);
-        });
-    }
+	ngOnInit() {
+		this.loginForm = this.formBuilder.group({
+			username: this.username,
+			password: this.password,
+		});
 
-    bgLoaded(): void {
-        this.imgLoaded = true;
-        setTimeout(() => {
-            this.usernameInput.nativeElement.addEventListener(
-                'focus',
-                () => (this.usernameFocused = true)
-            );
-            this.usernameInput.nativeElement.addEventListener(
-                'blur',
-                () => (this.usernameFocused = false)
-            );
-        }, 0);
+		this.password.valueChanges.subscribe((value: string) => {
+			this.validPw.subscribe((res) => {
+				this.pwError = res ? 'invalid password' : 'wrong password';
+			});
+			this.validPw.next(true);
+		});
 
-        this.password.valueChanges.subscribe(() => {
-            this.invalidPassword = false;
-        });
-    }
+		this.socialAuthService.authState.subscribe((user) => {
+			this.user = user;
+			this.isLoggedin = user != null;
+			console.log(this.user);
+		});
+	}
 
-    usernameValidator(
-        control: AbstractControl
-    ): Observable<{ [key: string]: any } | null> {
-        return this.userService.verifyUsername(control.value).pipe(
-            map((res) => {
-                return res ? null : { usernameTaken: true };
-            })
-        );
-    }
+	usernameValidator(
+		control: AbstractControl
+	): Observable<{ [key: string]: any } | null> {
+		return timer(500).pipe(
+			switchMap((_) => this.userService.verifyUsername(control.value)),
+			map((res) => (res ? null : { usernameTaken: true }))
+		);
+	}
 
-    validInput(): boolean {
-        const invalidInput =
-            this.username.invalid &&
-            this.username.touched &&
-            !this.usernameFocused;
-        return !invalidInput;
-    }
+	passwordValidator(
+		control: AbstractControl
+	): Observable<{ [key: string]: any } | null> {
+		return this.validPw.pipe(
+			map((res) => (res ? null : { invalidPassword: true })),
+			take(1)
+		);
+	}
 
-    login(): void {
-        this.pendingLogin = true;
-        this.userService
-            .login(this.username.value, this.password.value)
-            .pipe(
-                catchError((err) => {
-                    this.invalidPassword = true;
-                    return 'error';
-                })
-            )
-            .subscribe((res) => {
-                this.pendingLogin = false;
-                this.router.navigate(['/browse']);
-            });
-    }
+	login(): void {
+		this.pendingLogin = true;
+		this.userService
+			.login(this.username.value, this.password.value)
+			.pipe(
+				catchError((err) => of(false)),
+				map((res) => !!res)
+			)
+			.subscribe((res) => {
+				this.pendingLogin = false;
+				if (res) {
+					return this.router.navigate(['/browse']);
+				} else {
+					this.password.patchValue('');
+					return this.validPw.next(false);
+				}
+			});
+	}
 
-    loginWithGoogle(): void {
-        this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
-        // console.log(user);
-    }
+	loginWithGoogle(): void {
+		this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
+		// console.log(user);
+	}
 }

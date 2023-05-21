@@ -32,6 +32,7 @@ import { DialogComponent } from './shared/components/dialog/dialog.component';
 import { SettingsComponent } from './shared/components/navbar/settings/settings.component';
 import { SigninComponent } from './views/login/signin/signin.component';
 import { RegisterComponent } from './views/login/register/register.component';
+import { InputComponent } from './shared/components/input/input.component';
 
 @NgModule({
     declarations: [
@@ -52,6 +53,7 @@ import { RegisterComponent } from './views/login/register/register.component';
         DialogComponent,
         SigninComponent,
         RegisterComponent,
+        InputComponent,
     ],
     imports: [
         BrowserModule,
