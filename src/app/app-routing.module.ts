@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { UserAuthGuard } from './core/guards/user-auth.guard';
+import { AuthComponent } from './views/auth/auth.component';
+import { LoginRedirectGuard } from './views/auth/login-redirect.guard';
+import { RegisterComponent } from './views/auth/register/register.component';
+import { SigninComponent } from './views/auth/signin/signin.component';
 import { HomeComponent } from './views/home/home.component';
-import { LoginRedirectGuard } from './views/login/login-redirect.guard';
-import { LoginComponent } from './views/login/login.component';
-import { RegisterComponent } from './views/login/register/register.component';
-import { SigninComponent } from './views/login/signin/signin.component';
 import { MainComponent } from './views/main/main.component';
 import { MoviePlayerComponent } from './views/movie-player/movie-player.component';
 import { UserComponent } from './views/user/user.component';
@@ -13,7 +13,7 @@ import { UserComponent } from './views/user/user.component';
 const routes: Routes = [
 	{
 		path: 'auth',
-		component: LoginComponent,
+		component: AuthComponent,
 		canActivate: [LoginRedirectGuard],
 		children: [
 			{
@@ -29,7 +29,7 @@ const routes: Routes = [
 	},
 	{
 		path: 'login',
-		component: LoginComponent,
+		component: AuthComponent,
 		canActivate: [LoginRedirectGuard],
 	},
 	{

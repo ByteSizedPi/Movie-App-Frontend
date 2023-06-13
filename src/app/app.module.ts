@@ -17,77 +17,77 @@ import { SearchComponent } from './shared/components/search/search.component';
 import { YtPlayerComponent } from './shared/components/yt-player/yt-player.component';
 import { DirectivesModule } from './shared/directives/directives.module';
 import { PipesModule } from './shared/pipes/pipes.module';
+import { AuthComponent } from './views/auth/auth.component';
 import { HomeComponent } from './views/home/home.component';
-import { LoginComponent } from './views/login/login.component';
 import { MainComponent } from './views/main/main.component';
 import { MoviePlayerComponent } from './views/movie-player/movie-player.component';
 import { UserComponent } from './views/user/user.component';
 
 import {
-    GoogleLoginProvider,
-    SocialAuthServiceConfig,
-    SocialLoginModule,
+	GoogleLoginProvider,
+	SocialAuthServiceConfig,
+	SocialLoginModule,
 } from '@abacritt/angularx-social-login';
 import { DialogComponent } from './shared/components/dialog/dialog.component';
-import { SettingsComponent } from './shared/components/navbar/settings/settings.component';
-import { SigninComponent } from './views/login/signin/signin.component';
-import { RegisterComponent } from './views/login/register/register.component';
 import { InputComponent } from './shared/components/input/input.component';
+import { SettingsComponent } from './shared/components/navbar/settings/settings.component';
+import { RegisterComponent } from './views/auth/register/register.component';
+import { SigninComponent } from './views/auth/signin/signin.component';
 
 @NgModule({
-    declarations: [
-        AppComponent,
-        HomeComponent,
-        CarouselComponent,
-        HeaderComponent,
-        MovieModalComponent,
-        NavbarComponent,
-        UserComponent,
-        YtPlayerComponent,
-        MoviePlayerComponent,
-        SearchComponent,
-        LoginComponent,
-        ImgCacheDirective,
-        MainComponent,
-        SettingsComponent,
-        DialogComponent,
-        SigninComponent,
-        RegisterComponent,
-        InputComponent,
-    ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        HttpClientModule,
-        YouTubePlayerModule,
-        FormsModule,
-        ReactiveFormsModule,
-        DirectivesModule,
-        PipesModule,
-        NgOptimizedImage,
-        SocialLoginModule,
-    ],
-    providers: [
-        {
-            provide: HTTP_INTERCEPTORS,
-            useClass: ImgInterceptor,
-            multi: true,
-        },
-        {
-            provide: 'SocialAuthServiceConfig',
-            useValue: {
-                autoLogin: false,
-                providers: [
-                    {
-                        id: GoogleLoginProvider.PROVIDER_ID,
-                        provider: new GoogleLoginProvider(
-                            '729640305434-d1hh5dvo407o8qkrhgmnvmq9eiihgr22.apps.googleusercontent.com'
-                        ),
-                    },
-                ],
-            } as SocialAuthServiceConfig,
-        },
-    ],
-    bootstrap: [AppComponent],
+	declarations: [
+		AppComponent,
+		HomeComponent,
+		CarouselComponent,
+		HeaderComponent,
+		MovieModalComponent,
+		NavbarComponent,
+		UserComponent,
+		YtPlayerComponent,
+		MoviePlayerComponent,
+		SearchComponent,
+		AuthComponent,
+		ImgCacheDirective,
+		MainComponent,
+		SettingsComponent,
+		DialogComponent,
+		SigninComponent,
+		RegisterComponent,
+		InputComponent,
+	],
+	imports: [
+		BrowserModule,
+		AppRoutingModule,
+		HttpClientModule,
+		YouTubePlayerModule,
+		FormsModule,
+		ReactiveFormsModule,
+		DirectivesModule,
+		PipesModule,
+		NgOptimizedImage,
+		SocialLoginModule,
+	],
+	providers: [
+		{
+			provide: HTTP_INTERCEPTORS,
+			useClass: ImgInterceptor,
+			multi: true,
+		},
+		{
+			provide: 'SocialAuthServiceConfig',
+			useValue: {
+				autoLogin: false,
+				providers: [
+					{
+						id: GoogleLoginProvider.PROVIDER_ID,
+						provider: new GoogleLoginProvider(
+							'729640305434-d1hh5dvo407o8qkrhgmnvmq9eiihgr22.apps.googleusercontent.com'
+						),
+					},
+				],
+			} as SocialAuthServiceConfig,
+		},
+	],
+	bootstrap: [AppComponent],
 })
 export class AppModule {}
