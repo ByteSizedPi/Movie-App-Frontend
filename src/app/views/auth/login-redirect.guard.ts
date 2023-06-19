@@ -1,17 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {
-	ActivatedRouteSnapshot,
-	CanActivate,
-	Router,
-	RouterStateSnapshot,
-} from '@angular/router';
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
 import { Observable, of } from 'rxjs';
 
 @Injectable({
 	providedIn: 'root',
 })
-export class LoginRedirectGuard implements CanActivate {
+export class LoginRedirectGuard  {
 	constructor(private http: HttpClient, private router: Router) {}
 	canActivate(
 		route: ActivatedRouteSnapshot,
