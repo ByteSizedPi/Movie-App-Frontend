@@ -1,0 +1,8 @@
+<button
+	class="row center space-around"
+	[style.backgroundColor]="img.src | color : props.color | async"
+	[style.color]="img.src | color : props.color | async | textColor"
+>
+	<i [ngClass]="props.icon"></i>
+	<h4>{{ props.text }}</h4>
+</button>
