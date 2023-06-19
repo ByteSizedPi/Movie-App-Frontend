@@ -28,12 +28,12 @@ import {
 	SocialAuthServiceConfig,
 	SocialLoginModule,
 } from '@abacritt/angularx-social-login';
+import { ActionButtonComponent } from './shared/components/action-button/action-button.component';
 import { DialogComponent } from './shared/components/dialog/dialog.component';
 import { InputComponent } from './shared/components/input/input.component';
 import { SettingsComponent } from './shared/components/navbar/settings/settings.component';
 import { RegisterComponent } from './views/auth/register/register.component';
 import { SigninComponent } from './views/auth/signin/signin.component';
-import { ActionButtonComponent } from './shared/components/action-button/action-button.component';
 
 @NgModule({
 	declarations: [
@@ -55,7 +55,7 @@ import { ActionButtonComponent } from './shared/components/action-button/action-
 		SigninComponent,
 		RegisterComponent,
 		InputComponent,
-  ActionButtonComponent,
+		ActionButtonComponent,
 	],
 	imports: [
 		BrowserModule,

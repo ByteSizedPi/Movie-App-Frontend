@@ -1,35 +1,34 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of, tap, map } from 'rxjs';
-import { LocalStorage } from './local-storage.service';
+import { Observable, map, of, tap } from 'rxjs';
 import { TSMap } from 'typescript-map';
-import { Timer } from '../../test/Timer';
+import { LocalStorage } from './local-storage.service';
 
 export type CachedImages = TSMap<string, Blob>;
 
 @Injectable({
-  providedIn: 'root',
+	providedIn: 'root',
 })
 export class ImgCacheService {
-  private _cache: CachedImages = new TSMap();
+	private _cache: CachedImages = new TSMap();
 
-  constructor(private http: HttpClient, private localStorage: LocalStorage) {}
+	constructor(private http: HttpClient, private localStorage: LocalStorage) {}
 
-  push(url: string, blob: Blob) {
-    if (this._cache.get(url)) return;
-    this._cache.set(url, blob);
-  }
+	push(url: string, blob: Blob) {
+		if (this._cache.get(url)) return;
+		this._cache.set(url, blob);
+	}
 
-  getImage(url: string): Observable<string> {
-    if (this._cache.get(url))
-      return of(URL.createObjectURL(this._cache.get(url) as Blob));
+	getImage(url: string): Observable<string> {
+		if (this._cache.get(url))
+			return of(URL.createObjectURL(this._cache.get(url) as Blob));
 
-    return this.http.get(url, { responseType: 'blob' }).pipe(
-      tap((blob) => this.push(url, blob)),
-      map((blob) => URL.createObjectURL(blob))
-    );
-  }
+		return this.http.get(url, { responseType: 'blob' }).pipe(
+			tap((blob) => this.push(url, blob)),
+			map((blob) => URL.createObjectURL(blob))
+		);
+	}
 
-  pushSet = (set: string[]) =>
-    set.forEach((url) => this.getImage(url).subscribe());
+	pushSet = (set: string[]) =>
+		set.forEach((url) => this.getImage(url).subscribe());
 }
