@@ -30,7 +30,7 @@ import { ImgCacheService } from '../../../core/services/img-cache.service';
 import { BackdropPipe } from '../../pipes/backdrop.pipe';
 import { MoviesService } from '../../services/movies.service';
 import { SearchService } from '../../services/search.service';
-import Movie from '../../types/Movie';
+import { Movie } from '../../types/Movie';
 import {
 	InfoButtonProps,
 	PlayButtonProps,

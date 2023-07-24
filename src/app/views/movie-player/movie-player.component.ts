@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { WebtorrentService } from 'src/app/shared/services/webtorrent.service';
-import Movie from 'src/app/shared/types/Movie';
+import { Movie } from 'src/app/shared/types/Movie';
 
 @Component({
 	selector: 'app-movie-player',

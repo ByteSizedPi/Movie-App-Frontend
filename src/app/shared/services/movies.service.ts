@@ -1,30 +1,33 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MovieGroup } from 'src/app/shared/models/Types';
-import Movie from '../types/Movie';
+import { Movie, PartialMovie } from '../types/Movie';
 import { UserService } from './user.service';
 
 @Injectable({
-    providedIn: 'root',
+	providedIn: 'root',
 })
 export class MoviesService {
-    constructor(private userApi: UserService, private http: HttpClient) {}
+	constructor(private userApi: UserService, private http: HttpClient) {}
 
-    private BASE_URL = 'http://localhost:3000/movies/';
+	private BASE_URL = 'http://localhost:3000/movies/';
 
-    private httpGet = (query: string) =>
-        this.http.get<Movie[]>(this.BASE_URL + query, {
-            withCredentials: true,
-        });
+	private httpGet = <T>(query: string) =>
+		this.http.get<T[]>(this.BASE_URL + query, {
+			withCredentials: true,
+		});
 
-    searchMovies = (query: string) => this.httpGet(`search=${query}`);
+	searchMovies = (query: string) => this.httpGet<Movie>(`search=${query}`);
 
-    getMovieGroup = (group: MovieGroup) => this.httpGet(`group=${group}`);
+	getMovieGroup = (group: MovieGroup) => this.httpGet<Movie>(`group=${group}`);
 
-    getRecommended = (tmdb_id: number) =>
-        this.httpGet(`recommended=${tmdb_id}`);
+	getGroup = (group: MovieGroup) =>
+		this.httpGet<PartialMovie>(`group=${group}`);
 
-    getSimilar = (tmdb_id: number) => this.httpGet(`similar=${tmdb_id}`);
+	getRecommended = (tmdb_id: number) =>
+		this.httpGet<Movie>(`recommended=${tmdb_id}`);
 
-    getShowList = () => this.userApi.getShowList();
+	getSimilar = (tmdb_id: number) => this.httpGet<Movie>(`similar=${tmdb_id}`);
+
+	getShowList = () => this.userApi.getShowList();
 }

@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
 import { map, tap } from 'rxjs/operators';
 import { LocalStorage } from 'src/app/core/services/local-storage.service';
-import Movie from '../types/Movie';
+import { Movie } from '../types/Movie';
 import { DefaultUser } from '../types/User';
 
 type UserShort = {

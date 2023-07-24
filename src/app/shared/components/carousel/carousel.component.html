@@ -1,32 +1,22 @@
-<h3 *ngIf="!dataLoaded || movies[0]">{{ title | asTitle | titlecase }}</h3>
-<div class="item-container" *ngIf="!dataLoaded || movies[0]">
-  <section class="row w-100" (window:resize)="translate()" #scroller>
-    <div
-      *ngFor="let movie of movies"
-      class="img-container"
-      [ngClass]="movie.title ? '' : 'card'"
-    >
-      <img
-        imgLoad
-        [viewMovie]="movie"
-        [imgCache]="movie | poster : 3"
-        [ngStyle]="size()"
-        loading="lazy"
-      />
-    </div>
-  </section>
-  <i
-    *ngIf="canLeft"
-    class="fas fa-chevron-left center h-100"
-    (click)="translate(-1)"
-  ></i>
-  <i
-    *ngIf="canRight"
-    class="fas fa-chevron-right center h-100"
-    (click)="translate(1)"
-  ></i>
+<h3 *ngIf="validContent()">{{ title | asTitle | titlecase }}</h3>
+<div class="item-container" *ngIf="validContent()">
+	<section class="row w-100" (window:resize)="translate()" #scroller>
+		<div *ngFor="let movie of content">
+			<smart-img
+				[src]="movie.poster_path"
+				[dims]="size()"
+				[resolution]="3"
+			></smart-img>
+		</div>
+	</section>
+	<i
+		*ngIf="canLeft"
+		class="fas fa-chevron-left center h-100"
+		(click)="translate(-1)"
+	></i>
+	<i
+		*ngIf="canRight"
+		class="fas fa-chevron-right center h-100"
+		(click)="translate(1)"
+	></i>
 </div>
-
-<!-- <div *ngIf="dataLoaded && !movies[0]">
-  <h3>No Results</h3>
-</div> -->

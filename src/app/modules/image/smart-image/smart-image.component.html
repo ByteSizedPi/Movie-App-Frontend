@@ -1,0 +1,16 @@
+<img
+	#img
+	*ngIf="type === 'poster'"
+	[imgCache]="src | poster : resolution"
+	[ngStyle]="dims"
+	src="assets/transparent.png"
+	[style.borderRadius]="r"
+/>
+
+<img
+	#img
+	*ngIf="type === 'backdrop'"
+	[imgCache]="src | backdrop : resolution"
+	src="assets/transparent.png"
+	[ngStyle]="dims"
+/>

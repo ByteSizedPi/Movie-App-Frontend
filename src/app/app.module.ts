@@ -28,10 +28,12 @@ import {
 	SocialAuthServiceConfig,
 	SocialLoginModule,
 } from '@abacritt/angularx-social-login';
+import { SmartImageModule } from './modules/image/image.module';
 import { ActionButtonComponent } from './shared/components/action-button/action-button.component';
 import { DialogComponent } from './shared/components/dialog/dialog.component';
 import { InputComponent } from './shared/components/input/input.component';
 import { SettingsComponent } from './shared/components/navbar/settings/settings.component';
+import { TestComponent } from './test/test/test.component';
 import { RegisterComponent } from './views/auth/register/register.component';
 import { SigninComponent } from './views/auth/signin/signin.component';
 
@@ -56,6 +58,7 @@ import { SigninComponent } from './views/auth/signin/signin.component';
 		RegisterComponent,
 		InputComponent,
 		ActionButtonComponent,
+		TestComponent,
 	],
 	imports: [
 		BrowserModule,
@@ -68,6 +71,7 @@ import { SigninComponent } from './views/auth/signin/signin.component';
 		PipesModule,
 		NgOptimizedImage,
 		SocialLoginModule,
+		SmartImageModule,
 	],
 	providers: [
 		{

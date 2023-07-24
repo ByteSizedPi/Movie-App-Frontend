@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Torrent } from '../models/Types';
-import Movie from '../types/Movie';
+import { Movie } from '../types/Movie';
 
 @Injectable({
 	providedIn: 'root',

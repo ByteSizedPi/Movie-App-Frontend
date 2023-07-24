@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import Movie from '../types/Movie';
+import { Movie } from '../types/Movie';
 
 // export enum MovieGroup {
 //   NowPlaying = 'now_playing',

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { UserAuthGuard } from './core/guards/user-auth.guard';
+import { TestComponent } from './test/test/test.component';
 import { AuthComponent } from './views/auth/auth.component';
 import { LoginRedirectGuard } from './views/auth/login-redirect.guard';
 import { RegisterComponent } from './views/auth/register/register.component';
@@ -11,6 +12,10 @@ import { MoviePlayerComponent } from './views/movie-player/movie-player.componen
 import { UserComponent } from './views/user/user.component';
 
 const routes: Routes = [
+	{
+		path: 'test',
+		component: TestComponent,
+	},
 	{
 		path: 'auth',
 		component: AuthComponent,
@@ -27,11 +32,11 @@ const routes: Routes = [
 			{ path: '', redirectTo: 'login', pathMatch: 'prefix' },
 		],
 	},
-	{
-		path: 'login',
-		component: AuthComponent,
-		canActivate: [LoginRedirectGuard],
-	},
+	// {
+	// 	path: 'login',
+	// 	component: AuthComponent,
+	// 	canActivate: [LoginRedirectGuard],
+	// },
 	{
 		path: '',
 		component: MainComponent,
@@ -47,10 +52,10 @@ const routes: Routes = [
 				canActivate: [UserAuthGuard],
 			},
 			{ path: 'watch', component: MoviePlayerComponent },
-			{ path: '', redirectTo: '/login', pathMatch: 'prefix' },
+			{ path: '', redirectTo: '/auth/login', pathMatch: 'prefix' },
 		],
 	},
-	{ path: '**', redirectTo: 'auth', pathMatch: 'full' },
+	{ path: '**', redirectTo: 'auth/login', pathMatch: 'full' },
 ];
 
 @NgModule({
