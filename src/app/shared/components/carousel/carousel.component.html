@@ -3,9 +3,10 @@
 	<section class="row w-100" (window:resize)="translate()" #scroller>
 		<div *ngFor="let movie of content">
 			<smart-img
-				[src]="movie.poster_path"
+				[src]="movie.poster"
 				[dims]="size()"
 				[resolution]="3"
+				[viewMovie]="movie.tmdb_id"
 			></smart-img>
 		</div>
 	</section>

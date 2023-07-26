@@ -3,7 +3,8 @@ img {
 	border: 0;
 	outline: none;
 	background-color: #303030;
-	box-shadow: rgba(0, 0, 0, 0.3) 0px 5px 10px;
+	// box-shadow: rgba(0, 0, 0, 0.3) 0px 5px 10px;
+	object-fit: contain;
 
 	animation: load 0.5s infinite alternate;
 

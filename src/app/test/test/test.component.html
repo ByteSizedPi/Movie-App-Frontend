@@ -1,11 +1,27 @@
-<section>
-	<carousel
-		title="Trending"
-		[asyncContent]="movies.getGroup('trending')"
-	></carousel>
-</section>
+<button
+	*ngIf="palette"
+	class="center"
+	(click)="clickHandler()"
+	[disabled]="pending"
+	[style.background]="palette.vibrant | darkenColor : 0.5"
+>
+	<div
+		id="spinner"
+		[style.borderTop]="'5rem solid ' + palette.vibrant"
+		[class]="pending ? 'spinner-active' : 'spinner-inactive'"
+	></div>
+	<div
+		id="bg"
+		class="center"
+		[ngStyle]="getStyles()"
+		[class]="pending ? 'bg-active center' : 'bg-inactive center'"
+	>
+		<h4 [style.color]="palette.vibrant | textColor">LIST</h4>
+	</div>
+</button>
 
-<!-- <smart-img src="/rktDFPbfHfUbArZ6OOOKsXcv0Bm.jpg"></smart-img> -->
-
-<!-- /rktDFPbfHfUbArZ6OOOKsXcv0Bm.jpg -->
-<!-- <smart-img src=""> </smart-img> -->
+<action-button
+	*ngIf="palette"
+	[props]="{ icon: 'fas fa-plus', text: 'Add', color: 'vibrant' }"
+	imgSrc="/iuFNMS8U5cb6xfzi51Dbkovj7vM.jpg"
+/>

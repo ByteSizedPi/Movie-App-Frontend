@@ -28,6 +28,7 @@ import {
 	SocialAuthServiceConfig,
 	SocialLoginModule,
 } from '@abacritt/angularx-social-login';
+import { ColorsModule } from './modules/colors/colors.module';
 import { SmartImageModule } from './modules/image/image.module';
 import { ActionButtonComponent } from './shared/components/action-button/action-button.component';
 import { DialogComponent } from './shared/components/dialog/dialog.component';
@@ -72,6 +73,7 @@ import { SigninComponent } from './views/auth/signin/signin.component';
 		NgOptimizedImage,
 		SocialLoginModule,
 		SmartImageModule,
+		ColorsModule,
 	],
 	providers: [
 		{

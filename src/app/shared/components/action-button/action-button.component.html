@@ -1,8 +1,23 @@
 <button
+	#btn
+	*ngIf="palette"
 	class="row center space-around"
-	[style.backgroundColor]="img.src | color : props.color | async"
-	[style.color]="img.src | color : props.color | async | textColor"
+	[disabled]="pending"
+	[style.background]="palette[props.color] | darkenColor : 0.5"
+	(click)="clickHandler()"
 >
-	<i [ngClass]="props.icon"></i>
-	<h4>{{ props.text }}</h4>
+	<div
+		[style.borderTop]="'5rem solid ' + palette.vibrant"
+		class="spinner"
+		[class]="pending ? 'spinner-active' : 'spinner-inactive'"
+	></div>
+	<div
+		class="bg center"
+		[class]="pending ? 'bg-active' : 'bg-inactive'"
+		[style.background]="palette['vibrant'] | darkenColor : (pending ? 0.5 : 1)"
+		[style.color]="palette['vibrant'] | textColor"
+	>
+		<i [ngClass]="props.icon"></i>
+		<h4>{{ props.text }}</h4>
+	</div>
 </button>

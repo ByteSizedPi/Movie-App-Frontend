@@ -1,13 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MovieModalService } from 'src/app/shared/components/movie-modal/movie-modal.service';
 
 @Component({
-    selector: 'app-main',
-    templateUrl: './main.component.html',
-    styleUrls: ['./main.component.scss'],
+	selector: 'app-main',
+	templateUrl: './main.component.html',
+	styleUrls: ['./main.component.scss'],
 })
-export class MainComponent implements OnInit {
-    constructor(public modal: MovieModalService) {}
-
-    ngOnInit(): void {}
+export class MainComponent {
+	constructor(public modal: MovieModalService) {}
 }

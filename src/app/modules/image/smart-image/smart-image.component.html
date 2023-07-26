@@ -1,16 +1,18 @@
 <img
 	#img
 	*ngIf="type === 'poster'"
-	[imgCache]="src | poster : resolution"
-	[ngStyle]="dims"
 	src="assets/transparent.png"
+	[ngStyle]="dims"
 	[style.borderRadius]="r"
+	loading="lazy"
+	[imgCache]="src | poster : resolution"
 />
 
 <img
 	#img
 	*ngIf="type === 'backdrop'"
-	[imgCache]="src | backdrop : resolution"
 	src="assets/transparent.png"
+	[imgCache]="src | backdrop : resolution"
 	[ngStyle]="dims"
+	loading="lazy"
 />

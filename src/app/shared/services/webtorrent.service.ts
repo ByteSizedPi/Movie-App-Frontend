@@ -1,8 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { Torrent } from '../models/Types';
+import { Observable, of } from 'rxjs';
 import { Movie } from '../types/Movie';
 
 @Injectable({
@@ -16,13 +14,15 @@ export class WebtorrentService {
 	stream = (): Observable<string> | undefined => {
 		if (!this.movie) return undefined;
 
-		const { torrents } = this.movie;
-		const { hash } = torrents.find(
-			({ quality }) => quality === '1080p'
-		) as Torrent;
+		return of('10');
 
-		return this.http
-			.get(this.BASE_URL + 'add/' + hash)
-			.pipe(map((_) => this.BASE_URL + hash));
+		// const { torrents } = this.movie;
+		// const { hash } = torrents.find(
+		// 	({ quality }) => quality === '1080p'
+		// ) as Torrent;
+
+		// return this.http
+		// 	.get(this.BASE_URL + 'add/' + hash)
+		// 	.pipe(map((_) => this.BASE_URL + hash));
 	};
 }

@@ -1,8 +1,8 @@
-<app-header [asyncMovies]="header | asyncMovies"></app-header>
+<!-- <app-header [asyncMovies]="header | asyncMovies"></app-header> -->
 <section class="column">
-  <carousel
-    *ngFor="let group of groups"
-    [title]="group"
-    [asyncMovies]="group | asyncMovies"
-  ></carousel>
+	<carousel
+		*ngFor="let group of groups"
+		[title]="group"
+		[asyncContent]="group | asyncMovies"
+	></carousel>
 </section>

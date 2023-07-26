@@ -8,6 +8,6 @@ import { SmartImageComponent } from './smart-image/smart-image.component';
 @NgModule({
 	declarations: [SmartImageComponent, PosterPipe, BackdropPipe, CacheDirective],
 	imports: [CommonModule],
-	exports: [SmartImageComponent],
+	exports: [SmartImageComponent, PosterPipe, BackdropPipe, CacheDirective],
 })
 export class SmartImageModule {}

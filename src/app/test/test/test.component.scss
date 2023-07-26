@@ -1,11 +1,42 @@
-section {
-	background-color: black;
-	margin: 1rem;
+button {
+	padding: 0;
+	width: 5rem;
+	height: 2rem;
+	margin: 2rem;
+	overflow: hidden;
+	border-radius: 10px;
+	position: relative;
+	opacity: 0;
+	animation: scale-in 0.2s ease-in-out forwards;
 }
 
-img {
+#spinner {
+	position: absolute;
+	width: calc(100% + 2rem);
+	height: 0;
+	border-bottom: 5rem solid transparent;
+}
+
+.spinner-active {
+	animation: rotate-360 1s forwards infinite linear;
+}
+
+.spinner-inactive {
+	animation: none;
+}
+
+.bg-active {
+	width: calc(5rem - 4px);
+	height: calc(2rem - 4px);
+}
+
+.bg-inactive {
 	width: 5rem;
-	height: 5rem;
-	// background-color: pink;
-	// border: 1px solid black;
+	height: 2rem;
+}
+
+#bg {
+	position: relative;
+	transition: all 0.2s;
+	border-radius: 8px;
 }

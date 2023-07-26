@@ -4,7 +4,7 @@
 	autoplay
 	preload
 	controls
-	[poster]="movie | backdrop : 3"
+	[poster]="movie.backdrop | backdrop : 3"
 	type="video/mp4"
 	id="video-player"
 	[src]="movieStream | async"

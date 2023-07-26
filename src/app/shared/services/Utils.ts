@@ -1,5 +1,3 @@
-import { Movie } from '../types/Movie';
-
 export const mod = (val: number, base: number) => (base + (val % base)) % base;
 
 export const constrain = (num: number, min: number, max: number) =>
@@ -30,29 +28,29 @@ export const darkenColor = (hex: string = '#000000', perc: number) => {
 	return `rgb(${r},${g},${b})`;
 };
 
-export const EMPTYMOVIE: Movie = {
-	yts_id: 0,
-	tmdb_id: 0,
-	imdb_id: '',
-	title: '',
-	year: 0,
-	rating: 0,
-	runtime: 0,
-	budget: 0,
-	revenue: 0,
-	genres: [],
-	summary: '',
-	description_full: '',
-	yt_trailer: '',
-	language: '',
-	mpa_rating: '',
-	poster: '',
-	backdrop: '',
-	cast: [],
-	torrents: [],
-	reviews: [],
-	providers: [],
-};
+// export const EMPTYMOVIE: Movie = {
+// 	yts_id: 0,
+// 	tmdb_id: 0,
+// 	imdb_id: '',
+// 	title: '',
+// 	year: 0,
+// 	rating: 0,
+// 	runtime: 0,
+// 	budget: 0,
+// 	revenue: 0,
+// 	genres: [],
+// 	summary: '',
+// 	description_full: '',
+// 	yt_trailer: '',
+// 	language: '',
+// 	mpa_rating: '',
+// 	poster: '',
+// 	backdrop: '',
+// 	cast: [],
+// 	torrents: [],
+// 	reviews: [],
+// 	providers: [],
+// };
 
 // export const EMPTYTMDB: TMDBMovie = {
 //   id: 0,

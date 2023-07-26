@@ -23,11 +23,11 @@ import {
 	tap,
 } from 'rxjs/operators';
 import { NavigationEventsService } from 'src/app/core/services/navigation-events.service';
+import { BackdropPipe } from 'src/app/modules/image/backdrop.pipe';
 import { MovieModalService } from 'src/app/shared/components/movie-modal/movie-modal.service';
 import { mod } from 'src/app/shared/services/Utils';
 import { ColorsService } from 'src/app/shared/services/colors.service';
 import { ImgCacheService } from '../../../core/services/img-cache.service';
-import { BackdropPipe } from '../../pipes/backdrop.pipe';
 import { MoviesService } from '../../services/movies.service';
 import { SearchService } from '../../services/search.service';
 import { Movie } from '../../types/Movie';
@@ -126,7 +126,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 				filter(({ backdrop: bd }) => !!bd),
 				mergeMap((movie) =>
 					this.imgCache
-						.getImage(new BackdropPipe().transform(movie, 3))
+						.getImage(new BackdropPipe().transform(movie.backdrop, 3))
 						.pipe(map((_) => this.movies.push(movie)))
 				)
 			)

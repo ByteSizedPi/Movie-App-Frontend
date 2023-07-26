@@ -7,6 +7,7 @@ import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 })
 export class SmartImageComponent {
 	@Input() src: string;
+	// = 'assets/transparent.png';
 	@Input() type: 'poster' | 'backdrop' = 'poster';
 	@Input() resolution: number = 3;
 	@Input() dims: { width: string; height: string };

@@ -1,36 +1,72 @@
 button {
-	height: 2.75rem;
-	border-radius: var(--radius-s);
-	padding: 0.25rem 0.75rem;
+	height: 3rem;
+	border-radius: 10px;
 	box-shadow: rgba(0, 0, 0, 0.4) 0px 4px 10px 2px;
 	cursor: pointer;
 	position: relative;
-	color: black;
-	background-color: white;
-	margin-right: 0.75rem;
-	width: 6.75rem;
-	transition: filter 0.1s, background-color 0.1s;
+	width: 9rem;
+	overflow: hidden;
+	padding: 0;
+	margin: 1rem;
+
+	opacity: 0;
+	animation: scale-in 0.2s ease-in-out forwards;
+
+	transition:
+		filter 0.1s,
+		background-color 0.2s;
 
 	&:active {
-		transform: scale(97%);
+		transform: scale(96%);
 	}
 
 	&:hover {
-		// filter: brightness(0.7);
 		filter: brightness(1.2) saturate(1.2);
-		transform: scale(102%);
+	}
+
+	&:disabled {
+		cursor: auto;
 	}
 
 	h4 {
-		margin: 0.5rem;
 		padding: 0;
-		font-size: 1.2rem;
-		font-weight: 500;
+		font-size: 1.3rem;
+		font-weight: 600;
 	}
 
 	i {
-		// color: black;
 		font-size: 1rem;
-		margin: 0.5rem 0 0.5rem 0.5rem;
+		margin-right: 0.5rem;
 	}
+}
+
+.spinner {
+	position: absolute;
+	width: calc(100% + 2rem);
+	height: 0;
+	border-bottom: 5rem solid transparent;
+}
+
+.spinner-active {
+	animation: rotate-360 1s forwards infinite linear;
+}
+
+.spinner-inactive {
+	animation: none;
+}
+
+.bg {
+	position: relative;
+	transition: all 0.2s;
+	border-radius: 8px;
+}
+
+.bg-active {
+	width: calc(9rem - 6px);
+	height: calc(3rem - 6px);
+}
+
+.bg-inactive {
+	width: 9rem;
+	height: 3rem;
 }

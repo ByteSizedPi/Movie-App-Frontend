@@ -2,7 +2,7 @@
 	<img
 		#bg
 		id="bg"
-		[imgCache]="curMovie | backdrop : 3"
+		[imgCache]="curMovie.backdrop | backdrop : 3"
 		[style.opacity]="+showImg"
 		priority
 		(load)="loadFirst()"
@@ -16,13 +16,10 @@
 				<action-button
 					[streamMovie]="curMovie"
 					[props]="playButton"
-					[img]="bg"
+					[htmlImg]="bg"
 				></action-button>
-				<action-button
-					[viewMovie]="curMovie"
-					[props]="infoButton"
-					[img]="bg"
-				></action-button>
+				<!-- [viewMovie]="curMovie" -->
+				<action-button [props]="infoButton" [htmlImg]="bg"></action-button>
 			</div>
 		</div>
 	</div>
