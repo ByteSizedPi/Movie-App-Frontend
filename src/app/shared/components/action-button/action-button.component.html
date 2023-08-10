@@ -4,20 +4,22 @@
 	class="row center space-around"
 	[disabled]="pending"
 	[style.background]="palette[props.color] | darkenColor : 0.5"
-	(click)="clickHandler()"
 >
+	<!-- (click)="clickHandler()" -->
 	<div
-		[style.borderTop]="'5rem solid ' + palette.vibrant"
+		[style.borderTop]="'5rem solid ' + palette[props.color]"
 		class="spinner"
 		[class]="pending ? 'spinner-active' : 'spinner-inactive'"
 	></div>
 	<div
 		class="bg center"
 		[class]="pending ? 'bg-active' : 'bg-inactive'"
-		[style.background]="palette['vibrant'] | darkenColor : (pending ? 0.5 : 1)"
-		[style.color]="palette['vibrant'] | textColor"
+		[style.background]="
+			palette[props.color] | darkenColor : (pending ? 0.5 : 1)
+		"
+		[style.color]="palette[props.color] | textColor"
 	>
-		<i [ngClass]="props.icon"></i>
+		<i *ngIf="props.icon" [ngClass]="props.icon"></i>
 		<h4>{{ props.text }}</h4>
 	</div>
 </button>

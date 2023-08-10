@@ -29,12 +29,12 @@ import { mod } from 'src/app/shared/services/Utils';
 import { ColorsService } from 'src/app/shared/services/colors.service';
 import { ImgCacheService } from '../../../core/services/img-cache.service';
 import { MoviesService } from '../../services/movies.service';
-import { SearchService } from '../../services/search.service';
 import { Movie } from '../../types/Movie';
 import {
 	InfoButtonProps,
 	PlayButtonProps,
 } from '../action-button/action-button.component';
+import { SearchService } from '../search/search.service';
 
 @Component({
 	selector: 'app-header',
@@ -81,7 +81,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 			map((v) => !v),
 			startWith(true)
 		);
-		let search = this.searchService.onChange.pipe(
+		let search = this.searchService.modalState$.pipe(
 			map((v) => !v),
 			startWith(true)
 		);

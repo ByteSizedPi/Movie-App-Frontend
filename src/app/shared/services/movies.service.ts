@@ -8,7 +8,11 @@ import { UserService } from './user.service';
 	providedIn: 'root',
 })
 export class MoviesService {
-	constructor(private userApi: UserService, private http: HttpClient) {}
+	constructor(private userApi: UserService, private http: HttpClient) {
+		// this.http
+		// 	.get('https://yts.mx/api/v2/movie_details.jsonp?imdb_id=tt26674627')
+		// 	.subscribe(console.log);
+	}
 
 	private BASE_URL = 'http://localhost:3000/movies/';
 
@@ -17,10 +21,8 @@ export class MoviesService {
 			withCredentials: true,
 		});
 
-	searchMovies = (query: string) => this.httpGet<Movie[]>(`search=${query}`);
-
-	getMovieGroup = (group: MovieGroup) =>
-		this.httpGet<Movie[]>(`group=${group}`);
+	searchMovies = (query: string) =>
+		this.httpGet<PartialMovie[]>(`search=${query}`);
 
 	getGroup = (group: MovieGroup) =>
 		this.httpGet<PartialMovie[]>(`group=${group}`);
@@ -34,12 +36,11 @@ export class MoviesService {
 			withCredentials: true,
 		});
 
-	// this.httpGet<Movie>(`download=${hash}`);
-
 	getRecommended = (tmdb_id: number) =>
-		this.httpGet<Movie[]>(`recommended=${tmdb_id}`);
+		this.httpGet<PartialMovie[]>(`recommended=${tmdb_id}`);
 
-	getSimilar = (tmdb_id: number) => this.httpGet<Movie[]>(`similar=${tmdb_id}`);
+	getSimilar = (tmdb_id: number) =>
+		this.httpGet<PartialMovie[]>(`similar=${tmdb_id}`);
 
 	getShowList = () => this.userApi.getShowList();
 }

@@ -1,7 +1,6 @@
 import { AfterContentInit, Component } from '@angular/core';
 import { PosterPipe } from 'src/app/modules/image/poster.pipe';
 import { Palette } from 'src/app/shared/models/Types';
-import { darkenColor, getTextColor } from 'src/app/shared/services/Utils';
 import { ColorsService } from '../../shared/services/colors.service';
 import { MoviesService } from '../../shared/services/movies.service';
 
@@ -13,8 +12,6 @@ import { MoviesService } from '../../shared/services/movies.service';
 export class TestComponent implements AfterContentInit {
 	palette: Palette;
 	pending: boolean = false;
-	darkenColor = darkenColor;
-	getTextColor = getTextColor;
 
 	constructor(
 		public movies: MoviesService,
@@ -33,13 +30,13 @@ export class TestComponent implements AfterContentInit {
 	}
 
 	getStyles = () => {
-		return {
-			backgroundColor: darkenColor(
-				this.palette.vibrant,
-				this.pending ? 0.5 : 1
-			),
-			color: this.palette.vibrant,
-		};
+		// return {
+		// 	backgroundColor: darkenColor(
+		// 		this.palette.vibrant,
+		// 		this.pending ? 0.5 : 1
+		// 	),
+		// 	color: this.palette.vibrant,
+		// };
 	};
 
 	borderTop() {

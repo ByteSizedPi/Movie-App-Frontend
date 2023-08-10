@@ -1,28 +1,32 @@
-<section
-	*ngIf="searchService.isOpen"
-	[ngStyle]="{ animation: searchService.animation }"
-	(resize)="resize()"
->
+<section (resize)="resize()" id="search-modal">
+	<!-- [style.animation]="searchService.animation" -->
 	<div id="search-section">
-		<div id="search-container" *ngIf="movies">
-			<h3 *ngIf="searchService.term" class="row center-vertical">
+		<div id="search-container" *ngIf="content">
+			<h3 *ngIf="searchService.curQuery" class="row center-vertical">
 				Search results for:
 				<h2>
-					{{ searchService.term }}
+					{{ searchService.curQuery }}
 				</h2>
 			</h3>
 			<div class="row wrap">
+				<smart-img
+					*ngFor="let movie of content"
+					[src]="movie.poster"
+					[dims]="size()"
+					[resolution]="2"
+					[viewMovie]="movie.tmdb_id"
+				></smart-img>
 				<!-- [viewMovie]="movie" -->
-				<img
+				<!-- <img
 					imgLoad
-					*ngFor="let movie of movies"
+					*ngFor="let movie of content"
 					[src]="movie.poster | poster : 3"
 					[ngStyle]="size()"
-				/>
+				/> -->
 			</div>
 		</div>
 
-		<div *ngIf="!movies && !loaded" class="container center">
+		<div *ngIf="content === undefined" class="container center">
 			<div class="loader center"></div>
 		</div>
 	</div>

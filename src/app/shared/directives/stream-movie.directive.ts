@@ -16,7 +16,7 @@ export class StreamMovieDirective {
 	) {}
 
 	@HostListener('click') onClick = () => {
-		this.modalService.closeModal();
+		this.modalService.close();
 		this.torrentService.movie = this.streamMovie;
 		this.router.navigate(['/watch']);
 	};

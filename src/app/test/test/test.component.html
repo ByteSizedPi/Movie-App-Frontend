@@ -13,9 +13,9 @@
 	<div
 		id="bg"
 		class="center"
-		[ngStyle]="getStyles()"
 		[class]="pending ? 'bg-active center' : 'bg-inactive center'"
 	>
+		<!-- [ngStyle]="getStyles()" -->
 		<h4 [style.color]="palette.vibrant | textColor">LIST</h4>
 	</div>
 </button>
@@ -24,4 +24,6 @@
 	*ngIf="palette"
 	[props]="{ icon: 'fas fa-plus', text: 'Add', color: 'vibrant' }"
 	imgSrc="/iuFNMS8U5cb6xfzi51Dbkovj7vM.jpg"
+	[pending]="pending"
+	(click)="clickHandler()"
 />

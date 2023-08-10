@@ -1,21 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Id } from '../../services/Utils';
 import { MoviesService } from '../../services/movies.service';
-import { SearchService } from '../../services/search.service';
-import { Movie } from '../../types/Movie';
+import { PartialMovie } from '../../types/Movie';
 import { MovieModalService } from '../movie-modal/movie-modal.service';
+import { SearchService } from './search.service';
 
 @Component({
 	selector: 'app-search',
 	templateUrl: './search.component.html',
 	styleUrls: ['./search.component.scss'],
 })
-export class SearchComponent implements OnInit {
-	movies: Movie[] | undefined;
+export class SearchComponent implements OnDestroy {
+	content: PartialMovie[] | undefined = undefined;
+	contentSub: Subscription | undefined;
 	itemsInARow: number = 0;
 	gap: number = 4;
-	movieSub: Subscription | undefined;
 	loaded = false;
 
 	constructor(
@@ -23,20 +23,20 @@ export class SearchComponent implements OnInit {
 		private modal: MovieModalService,
 		private moviesService: MoviesService
 	) {
-		this.searchService.emitSearch.subscribe((obs) => {
-			this.loaded = false;
-			this.movies = undefined;
-			this.movieSub?.unsubscribe();
-			this.movieSub = obs.subscribe((movies) => {
-				this.loaded = true;
-				if (movies[0]) this.movies = movies;
-				this.movieSub?.unsubscribe();
-			});
-		});
+		this.contentSub = this.searchService.searchEvent$.subscribe(
+			({ content$ }) => {
+				this.content = undefined;
+
+				content$.subscribe((movies) => {
+					this.content = movies;
+					this.resize();
+				});
+			}
+		);
 	}
 
-	ngOnInit(): void {
-		this.resize();
+	ngOnDestroy(): void {
+		this.contentSub?.unsubscribe();
 	}
 
 	resize() {

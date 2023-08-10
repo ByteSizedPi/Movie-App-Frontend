@@ -1,4 +1,4 @@
-<span id="backdrop" class="container" (click)="modal.closeModal()"></span>
+<span id="backdrop" class="container" (click)="modal.close()"></span>
 <section>
 	<div id="movieModal" class="mh-100">
 		<div class="trailer w-100">
@@ -25,35 +25,27 @@
 					<h1>{{ content.title }}</h1>
 					<div class="row button-container">
 						<action-button
+							[props]="{
+								icon: 'fas fa-plus',
+								text: 'My List',
+								color: 'muted'
+							}"
+							[imgSrc]="content.poster"
+							[pending]="listPending"
+						/>
+						<!-- (click)="toggleList()" -->
+						<action-button
 							*ngIf="content.yts_id"
 							[props]="playButton"
 							[imgSrc]="content.poster"
 							[streamMovie]="content"
 						/>
-						<button
-							id="list-button"
-							class="center"
-							[ngStyle]="getStyles()"
-							[disabled]="listPending"
-							(click)="toggleList()"
-						>
-							<div class="loading" [ngStyle]="borderTop()"></div>
-							<div
-								class="row center list-container container"
-								[ngStyle]="getStyles()"
-							>
-								<img imgLoad [src]="getListIcon()" />
-								<h4 [ngStyle]="{ color: getTextColor(curPalette.vibrant) }">
-									My List
-								</h4>
-							</div>
-						</button>
 					</div>
 				</div>
 			</div>
 		</div>
 
-		<img id="x" src="assets/x.svg" alt="" (click)="modal.closeModal()" />
+		<img id="x" src="assets/x.svg" alt="" (click)="modal.close()" />
 
 		<div class="content" *ngIf="content && curPalette">
 			<div>
@@ -70,6 +62,7 @@
 					<h4>{{ content.runtime | runtime }}</h4>
 					<!-- <h4>{{ content.language }}</h4> -->
 				</div>
+
 				<p>{{ content.summary }}</p>
 
 				<div class="row wrap genres">
@@ -82,25 +75,21 @@
 					</div>
 				</div>
 
-				<h3 class="row">
+				<h3 class="row" *ngIf="curPalette && content.yts_id">
 					<i
 						class="fas fa-download"
-						[ngStyle]="{ color: curPalette.lightVibrant }"
+						[style.color]="curPalette.lightVibrant"
 					></i>
 					Downloads
 				</h3>
 				<div class="row wrap downloads">
-					<a *ngFor="let torrent of content.torrents">
-						<button
-							class="download"
-							[ngStyle]="{
-								backgroundColor: curPalette.vibrant,
-								color: getTextColor(curPalette.vibrant)
-							}"
-							(click)="download(torrent.hash)"
-						>
-							{{ torrent.quality }}
-						</button>
+					<a *ngFor="let torrent of content.torrents; index as i">
+						<action-button
+							[imgSrc]="content.poster"
+							[props]="{ text: torrent.quality, color: 'lightMuted' }"
+							[pending]="downloads[i]"
+							(click)="download(torrent.hash, i)"
+						/>
 					</a>
 				</div>
 			</div>
@@ -108,64 +97,50 @@
 			<div>
 				<div id="more" class="row end">
 					<span class="column">
-						<h4>IMDB ID:</h4>
-						<h4 *ngIf="modal.movie.budget">budget:</h4>
-						<h4 *ngIf="modal.movie.revenue">revenue:</h4>
+						<h4 *ngIf="content.imdb_id">IMDB ID:</h4>
+						<h4 *ngIf="content.budget">budget:</h4>
+						<h4 *ngIf="content.revenue">revenue:</h4>
 					</span>
-					<span class="column end" [ngStyle]="{ color: curPalette.vibrant }">
-						<h4>{{ modal.movie.imdb_id }}</h4>
-						<h4 *ngIf="modal.movie.budget">
-							${{ modal.movie.budget / 1000000 }}M
-						</h4>
-						<h4 *ngIf="modal.movie.revenue">
-							${{ modal.movie.revenue / 1000000 | number : "1.0-0" }}M
+					<span class="column end" [style.color]="curPalette.vibrant">
+						<h4 *ngIf="content.imdb_id">{{ content.imdb_id }}</h4>
+						<h4 *ngIf="content.budget">${{ content.budget / 1000000 }}M</h4>
+						<h4 *ngIf="content.revenue">
+							${{ content.revenue / 1000000 | number : "1.0-0" }}M
 						</h4>
 					</span>
 				</div>
 
-				<div *ngIf="modal.movie.cast" class="cast row end">
-					<!-- <span class="column">
-						<div *ngFor="let member of modal.movie.cast">
+				<div *ngIf="content.cast" class="cast row end">
+					<span class="column">
+						<div *ngFor="let member of content.cast">
 							<div class="text">
 								<h4 class="name">{{ member.name }}</h4>
 								<h4 class="char">{{ member.character_name }}</h4>
 							</div>
 						</div>
-					</span> -->
-					<!-- <span class="column">
-						<div *ngFor="let member of modal.movie.cast">
+					</span>
+					<span class="column">
+						<div *ngFor="let member of content.cast">
 							<img
-								*ngIf="member.url_small_image"
-								[ngStyle]="{ 'border-color': curPalette.darkMuted }"
+								[style.borderColor]="curPalette.darkMuted"
 								[src]="member.url_small_image"
 								onerror="this.src='assets/no-user.png'"
 							/>
 						</div>
-					</span> -->
+					</span>
 				</div>
 			</div>
 		</div>
 
-		<!-- <div *ngFor="let member of modal.movie.cast">
-						<div class="cast-member row" *ngIf="member.url_small_image">
-							<img
-								[ngStyle]="{ 'border-color': curPalette.darkMuted }"
-								[src]="member.url_small_image"
-								onerror="this.src='assets/no-user.png'"
-							/>
-							<div class="left-align">
-								<h4 class="name">{{ member.name }}</h4>
-								<h4 class="char">{{ member.character_name }}</h4>
-							</div>
-						</div>
-					</div> -->
-
-		<!-- <div class="recommendations w-100">
-      <carousel [asyncMovies]="modal.getSimilar()" title="Similar"></carousel>
-      <carousel
-        [asyncMovies]="modal.getRecommended()"
-        title="Recommended"
-      ></carousel>
-    </div> -->
+		<div class="recommendations w-100" *ngIf="content">
+			<carousel
+				[asyncContent]="moviesService.getSimilar(content.tmdb_id)"
+				title="Similar"
+			></carousel>
+			<carousel
+				[asyncContent]="moviesService.getRecommended(content.tmdb_id)"
+				title="Recommended"
+			></carousel>
+		</div>
 	</div>
 </section>

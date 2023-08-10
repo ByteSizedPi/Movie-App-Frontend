@@ -10,7 +10,7 @@ import { Palette, PaletteColor } from '../../models/Types';
 import { ColorsService } from '../../services/colors.service';
 
 export type ButtonProps = {
-	icon: string;
+	icon?: string;
 	color: PaletteColor;
 	text: string;
 };

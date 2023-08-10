@@ -7,7 +7,7 @@ button {
 	width: 9rem;
 	overflow: hidden;
 	padding: 0;
-	margin: 1rem;
+	margin: 0 0.5rem;
 
 	opacity: 0;
 	animation: scale-in 0.2s ease-in-out forwards;
@@ -62,8 +62,8 @@ button {
 }
 
 .bg-active {
-	width: calc(9rem - 6px);
-	height: calc(3rem - 6px);
+	width: calc(9rem - 8px);
+	height: calc(3rem - 8px);
 }
 
 .bg-inactive {

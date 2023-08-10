@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BackdropPipe } from 'src/app/modules/image/backdrop.pipe';
 import { Palette } from 'src/app/shared/models/Types';
-import { BODY, Id, darkenColor, getTextColor } from '../../services/Utils';
+import { Id } from '../../services/Utils';
 import { ColorsService } from '../../services/colors.service';
 import { MoviesService } from '../../services/movies.service';
 import { UserService } from '../../services/user.service';
@@ -18,14 +18,12 @@ export class MovieModalComponent implements OnInit {
 	playButton = PlayButtonProps;
 	bgImg: HTMLImageElement;
 
-	trailerShown: boolean = false;
 	listPending = false;
 	isListed = false;
+	downloads: boolean[] = [];
 
 	curPalette: Palette;
-	colorsLoaded = false;
 	showMore = true;
-	getTextColor = getTextColor;
 
 	constructor(
 		public modal: MovieModalService,
@@ -38,6 +36,9 @@ export class MovieModalComponent implements OnInit {
 		const openSub = this.modal.open$.subscribe((movie) => {
 			this.content = movie;
 			console.log(this.content);
+			if (this.content.torrents)
+				this.downloads = this.content.torrents.map((_) => false);
+
 			this.colors
 				.getPalette(new BackdropPipe().transform(this.content.poster, 0))
 				.subscribe((palette) => (this.curPalette = palette));
@@ -55,64 +56,36 @@ export class MovieModalComponent implements OnInit {
 			closeSub.unsubscribe();
 		});
 	}
-	toggleList() {
-		this.listPending = true;
-		this.user[this.isListed ? 'removeFromList' : 'addToList'](
-			this.modal.movie
-		).subscribe((_) => {
-			setTimeout(() => {
-				this.listPending = false;
-				this.isListed = !this.isListed;
-			}, 500);
-		});
-	}
+	// toggleList() {
+	// 	this.listPending = true;
+	// 	this.user[this.isListed ? 'removeFromList' : 'addToList'](
+	// 		this.modal.movie
+	// 	).subscribe((_) => {
+	// 		setTimeout(() => {
+	// 			this.listPending = false;
+	// 			this.isListed = !this.isListed;
+	// 		}, 500);
+	// 	});
+	// }
 
-	download(hash: string) {
+	download(hash: string, i: number) {
+		this.downloads[i] = true;
 		this.moviesService.downloadMovie(hash).subscribe((movieBlob) => {
 			const file = new Blob([movieBlob], { type: 'video/mp4' });
-			// return URL.createObjectURL(file);
 			const fileURL = URL.createObjectURL(file);
 
 			// Create a temporary anchor element to trigger the download
 			const downloadLink = document.createElement('a');
 			downloadLink.href = fileURL;
-			downloadLink.download = 'yay'; // Use the provided filename
-			downloadLink.style.display = 'none'; // Hide the anchor element
+			downloadLink.download = 'yay';
+			downloadLink.style.display = 'none';
 
-			// Trigger the download
 			document.body.appendChild(downloadLink);
 			downloadLink.click();
 
-			// Clean up after the download is complete
 			URL.revokeObjectURL(fileURL);
 			document.body.removeChild(downloadLink);
+			this.downloads[i] = false;
 		});
 	}
-
-	toggleMore() {
-		this.showMore = !this.showMore;
-	}
-
-	borderTop() {
-		return { borderTop: `5rem solid${this.curPalette.vibrant}` };
-	}
-
-	getStyles = () => {
-		return {
-			backgroundColor: darkenColor(
-				this.curPalette.vibrant,
-				this.listPending ? 0.5 : 1
-			),
-			color: this.curPalette.vibrant,
-		};
-	};
-
-	lockScroll = () => (BODY.style.overflowY = 'hidden');
-	allowScroll = () => (BODY.style.overflowY = 'auto');
-
-	getListIcon = () =>
-		`assets/${this.isListed ? 'minus-' : 'plus-'}${this.getIconColor()}.svg`;
-
-	getIconColor = () =>
-		getTextColor(this.curPalette.vibrant) === '#fff' ? 'white' : 'black';
 }
