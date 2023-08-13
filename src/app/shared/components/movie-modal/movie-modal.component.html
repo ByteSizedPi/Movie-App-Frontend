@@ -11,8 +11,8 @@
 				<smart-img
 					*ngIf="!content.yt_trailer"
 					[dims]="{
-						width: '100%',
-						height: 'calc(0.5625 * var(--modal-width))'
+						w: '100%',
+						h: 'calc(0.5625 * var(--modal-width))'
 					}"
 					[src]="content.backdrop"
 					type="backdrop"
@@ -26,14 +26,14 @@
 					<div class="row button-container">
 						<action-button
 							[props]="{
-								icon: 'fas fa-plus',
+								icon: isListed ? 'fas fa-minus' : 'fas fa-plus',
 								text: 'My List',
 								color: 'muted'
 							}"
 							[imgSrc]="content.poster"
 							[pending]="listPending"
+							(clicked)="toggleList()"
 						/>
-						<!-- (click)="toggleList()" -->
 						<action-button
 							*ngIf="content.yts_id"
 							[props]="playButton"

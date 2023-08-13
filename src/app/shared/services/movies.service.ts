@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { map } from 'rxjs';
 import { MovieGroup } from 'src/app/shared/models/Types';
 import { Movie, PartialMovie } from '../types/Movie';
 import { UserService } from './user.service';
@@ -30,11 +31,20 @@ export class MoviesService {
 	getMovieByTMDBId = (tmdb_id: number) =>
 		this.httpGet<Movie>(`tmdbid=${tmdb_id}`);
 
-	downloadMovie = (hash: string) =>
-		this.http.get(`http://localhost:3000/movies/download=${hash}`, {
-			responseType: 'blob',
-			withCredentials: true,
-		});
+	getMovie = (hash: string) =>
+		this.http
+			.get(`${this.BASE_URL}stream=${hash}`, {
+				responseType: 'blob',
+				withCredentials: true,
+			})
+			.pipe(
+				map((blob) => {
+					const videoBlob = new Blob([blob], {
+						type: 'video/mp4',
+					});
+					return URL.createObjectURL(videoBlob);
+				})
+			);
 
 	getRecommended = (tmdb_id: number) =>
 		this.httpGet<PartialMovie[]>(`recommended=${tmdb_id}`);

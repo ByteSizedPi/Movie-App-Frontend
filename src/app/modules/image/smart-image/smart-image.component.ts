@@ -10,8 +10,15 @@ export class SmartImageComponent {
 	// = 'assets/transparent.png';
 	@Input() type: 'poster' | 'backdrop' = 'poster';
 	@Input() resolution: number = 3;
-	@Input() dims: { width: string; height: string };
+	@Input() dims: { w: string; h: string };
 	@Input() r: string = 'calc(var(--radius-s) + 2px)';
 
 	@ViewChild('img') img: ElementRef<HTMLImageElement>;
+
+	toStyle() {
+		return {
+			width: this.dims.w,
+			height: this.dims.h,
+		};
+	}
 }

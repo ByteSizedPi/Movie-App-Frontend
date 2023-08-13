@@ -43,11 +43,11 @@ export class SearchComponent implements OnDestroy {
 		if (Id('search-container')) this.calcWidth();
 	}
 
-	size(): { width: string; height: string } {
+	size(): { w: string; h: string } {
 		const newWidth = this.calcWidth();
 		return {
-			width: `${newWidth}px`,
-			height: `${(3 / 2) * newWidth}px`,
+			w: `${newWidth}px`,
+			h: `${(3 / 2) * newWidth}px`,
 		};
 	}
 

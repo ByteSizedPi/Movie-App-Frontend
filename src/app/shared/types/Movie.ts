@@ -47,7 +47,7 @@ export type Movie = {
 		imdb_code: string;
 	}[];
 
-	torrents?: {
+	torrents: {
 		url: string;
 		hash: string;
 		quality: string;

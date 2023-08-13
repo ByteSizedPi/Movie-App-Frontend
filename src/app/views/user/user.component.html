@@ -1,7 +1,13 @@
 <section>
-	<img imgLoad [src]="bg.backdrop | backdrop : 1" *ngIf="bg" />
+	<smart-img
+		*ngIf="bg"
+		[src]="bg.backdrop"
+		[dims]="{ w: '100vw', h: '100vh' }"
+		type="backdrop"
+		[resolution]="1"
+	/>
 	<div class="bg"></div>
 	<div class="content">
-		<carousel [asyncMovies]="movies" *ngIf="movies" title="My List"></carousel>
+		<carousel [asyncContent]="movies" *ngIf="movies" title="My List" />
 	</div>
 </section>

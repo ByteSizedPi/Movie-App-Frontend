@@ -92,8 +92,8 @@ export class CarouselComponent implements OnInit, AfterViewInit {
 	scrollerEl = () => this.scroller.nativeElement;
 
 	size = () => ({
-		width: `${this.calcWidth()}px`,
-		height: `${this.calcWidth() * 1.5}px`,
+		w: `${this.calcWidth()}px`,
+		h: `${this.calcWidth() * 1.5}px`,
 	});
 
 	canScroll() {

@@ -2,7 +2,9 @@ import {
 	AfterContentInit,
 	Component,
 	ElementRef,
+	EventEmitter,
 	Input,
+	Output,
 	ViewChild,
 } from '@angular/core';
 import { PosterPipe } from 'src/app/modules/image/poster.pipe';
@@ -38,6 +40,7 @@ export class ActionButtonComponent implements AfterContentInit {
 	@Input() htmlImg: HTMLImageElement;
 	@Input() imgSrc: string;
 	@Input() pending: boolean = false;
+	@Output() clicked: EventEmitter<void> = new EventEmitter<void>();
 	palette: Palette;
 
 	constructor(private colorsService: ColorsService) {}
@@ -53,12 +56,5 @@ export class ActionButtonComponent implements AfterContentInit {
 				this.btn.nativeElement.style.animation = 'none';
 			}, 250);
 		});
-	}
-
-	clickHandler() {
-		this.pending = true;
-		setTimeout(() => {
-			this.pending = false;
-		}, 2000);
 	}
 }

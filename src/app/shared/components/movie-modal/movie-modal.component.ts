@@ -35,7 +35,6 @@ export class MovieModalComponent implements OnInit {
 	ngOnInit(): void {
 		const openSub = this.modal.open$.subscribe((movie) => {
 			this.content = movie;
-			console.log(this.content);
 			if (this.content.torrents)
 				this.downloads = this.content.torrents.map((_) => false);
 
@@ -43,9 +42,9 @@ export class MovieModalComponent implements OnInit {
 				.getPalette(new BackdropPipe().transform(this.content.poster, 0))
 				.subscribe((palette) => (this.curPalette = palette));
 
-			// this.user.getShowListIDs().subscribe((ids) => {
-			// 	this.isListed = ids.includes(this.content.imdb_id);
-			// });
+			this.user.getShowListIDs().subscribe((ids) => {
+				this.isListed = ids.includes(this.content.imdb_id);
+			});
 		});
 
 		const closeSub = this.modal.close$.subscribe(() => {
@@ -56,36 +55,38 @@ export class MovieModalComponent implements OnInit {
 			closeSub.unsubscribe();
 		});
 	}
-	// toggleList() {
-	// 	this.listPending = true;
-	// 	this.user[this.isListed ? 'removeFromList' : 'addToList'](
-	// 		this.modal.movie
-	// 	).subscribe((_) => {
-	// 		setTimeout(() => {
-	// 			this.listPending = false;
-	// 			this.isListed = !this.isListed;
-	// 		}, 500);
-	// 	});
-	// }
+	toggleList() {
+		this.listPending = true;
+		this.user[this.isListed ? 'removeFromList' : 'addToList'](
+			this.content
+		).subscribe((_) => {
+			setTimeout(() => {
+				this.listPending = false;
+				this.isListed = !this.isListed;
+			}, 1000);
+		});
+	}
 
 	download(hash: string, i: number) {
 		this.downloads[i] = true;
-		this.moviesService.downloadMovie(hash).subscribe((movieBlob) => {
-			const file = new Blob([movieBlob], { type: 'video/mp4' });
-			const fileURL = URL.createObjectURL(file);
+		this.moviesService.getMovie(hash).subscribe({
+			next: (url) => {
+				const downloadLink = document.createElement('a');
+				downloadLink.href = url;
+				downloadLink.download = 'yay';
+				downloadLink.style.display = 'none';
 
-			// Create a temporary anchor element to trigger the download
-			const downloadLink = document.createElement('a');
-			downloadLink.href = fileURL;
-			downloadLink.download = 'yay';
-			downloadLink.style.display = 'none';
+				document.body.appendChild(downloadLink);
+				downloadLink.click();
 
-			document.body.appendChild(downloadLink);
-			downloadLink.click();
-
-			URL.revokeObjectURL(fileURL);
-			document.body.removeChild(downloadLink);
-			this.downloads[i] = false;
+				URL.revokeObjectURL(url);
+				document.body.removeChild(downloadLink);
+				this.downloads[i] = false;
+			},
+			error: (err) => {
+				this.downloads[i] = false;
+			},
+			complete: () => {},
 		});
 	}
 }

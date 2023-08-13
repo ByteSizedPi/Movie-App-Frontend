@@ -13,11 +13,8 @@
 			<ng-container></ng-container>
 			<h1>{{ curMovie.title }}</h1>
 			<div class="button-container row">
-				<action-button
-					[streamMovie]="curMovie"
-					[props]="playButton"
-					[htmlImg]="bg"
-				></action-button>
+				<!-- [streamMovie]="curMovie" -->
+				<action-button [props]="playButton" [htmlImg]="bg"></action-button>
 				<!-- [viewMovie]="curMovie" -->
 				<action-button [props]="infoButton" [htmlImg]="bg"></action-button>
 			</div>

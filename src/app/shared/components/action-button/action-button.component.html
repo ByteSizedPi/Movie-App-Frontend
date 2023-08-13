@@ -3,7 +3,9 @@
 	*ngIf="palette"
 	class="row center space-around"
 	[disabled]="pending"
+	[style.pointerEvents]="pending ? 'none' : 'auto'"
 	[style.background]="palette[props.color] | darkenColor : 0.5"
+	(click)="clicked.emit()"
 >
 	<!-- (click)="clickHandler()" -->
 	<div

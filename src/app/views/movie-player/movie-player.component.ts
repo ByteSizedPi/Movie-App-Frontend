@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { WebtorrentService } from 'src/app/shared/services/webtorrent.service';
-import { Movie } from 'src/app/shared/types/Movie';
+// import { WebtorrentService } from 'src/app/shared/services/webtorrent.service';
+import { Observable, tap } from 'rxjs';
+import {
+	LocalStorage,
+	Session,
+} from '../../core/services/local-storage.service';
+import { MoviesService } from '../../shared/services/movies.service';
 
 @Component({
 	selector: 'app-movie-player',
@@ -9,13 +13,19 @@ import { Movie } from 'src/app/shared/types/Movie';
 	styleUrls: ['./movie-player.component.scss'],
 })
 export class MoviePlayerComponent implements OnInit {
-	public movieStream: Observable<string> | undefined;
-	movie: Movie;
+	movieStream: Observable<string>;
+	movie: Session['movie'];
+	pending: boolean = true;
 
-	constructor(public torrentService: WebtorrentService) {}
+	constructor(
+		private movies: MoviesService,
+		private localStorage: LocalStorage
+	) {}
 
 	ngOnInit(): void {
-		this.movie = this.torrentService.movie;
-		this.movieStream = this.torrentService.stream();
+		this.movie = this.localStorage.getItem('movie') as Session['movie'];
+		this.movieStream = this.movies
+			.getMovie(this.movie.hash)
+			.pipe(tap((_) => (this.pending = false)));
 	}
 }
