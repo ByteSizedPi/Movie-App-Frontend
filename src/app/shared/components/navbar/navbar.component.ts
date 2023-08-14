@@ -7,7 +7,7 @@ import {
 	map,
 	merge,
 } from 'rxjs';
-import { Id, query } from '../../services/Utils';
+import { DOM } from '../../services/Utils';
 import { SearchService } from '../search/search.service';
 
 @Component({
@@ -25,7 +25,7 @@ export class NavbarComponent implements AfterViewInit {
 	}
 
 	ngAfterViewInit(): void {
-		const searchInput = Id<HTMLInputElement>('search-input');
+		const searchInput = DOM.Id<HTMLInputElement>('search-input');
 
 		const search$ = fromEvent<InputEvent>(searchInput, 'input').pipe(
 			map(({ target }) => (target as HTMLInputElement)?.value),
@@ -42,10 +42,10 @@ export class NavbarComponent implements AfterViewInit {
 	}
 
 	close() {
-		query<HTMLInputElement>('input').value = '';
+		DOM.query<HTMLInputElement>('input').value = '';
 		this.searchService.pushModalState(false);
 
-		Id('search-modal').style.animation = 'fade-out 0.2s forwards';
+		DOM.Id('search-modal').style.animation = 'fade-out 0.2s forwards';
 		setTimeout(() => {
 			this.searchState = false;
 		}, 200);

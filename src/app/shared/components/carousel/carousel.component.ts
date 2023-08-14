@@ -17,7 +17,7 @@ import { Movie, PartialMovie } from '../../types/Movie';
 })
 export class CarouselComponent implements OnInit, AfterViewInit {
 	movies: Movie[];
-	content: PartialMovie[] | { poster: any; tmdb_id: any }[];
+	content: PartialMovie[] | { backdrop: any; poster: any; tmdb_id: any }[];
 	offset = 0;
 	itemsInARow = 0;
 	padding = 8;
@@ -26,31 +26,27 @@ export class CarouselComponent implements OnInit, AfterViewInit {
 	dataLoaded = false;
 
 	@Input() title: string = '';
-	@Input() asyncMovies: Observable<Movie[]>;
+
 	@Input() asyncContent: Observable<PartialMovie[]>;
 	@ViewChild('scroller') scroller: ElementRef;
 
 	constructor(public modal: MovieModalService) {}
 
 	ngOnInit(): void {
-		if (this.asyncMovies) {
-			this.asyncMovies.subscribe((movies) => {
-				this.movies = movies;
-				this.dataLoaded = true;
-				this.translate();
-			});
-		} else if (this.asyncContent) {
-			this.asyncContent.subscribe((content) => {
-				this.content = content;
-				this.dataLoaded = true;
-				this.translate();
-			});
-		}
+		this.asyncContent.subscribe((content) => {
+			this.content = content.filter((c) => c.backdrop || c.poster);
+			this.dataLoaded = true;
+			this.translate();
+		});
 	}
 
 	ngAfterViewInit(): void {
 		setTimeout(() => {
-			this.content = Array(12).fill({ poster_path: '', tmdb_id: undefined });
+			this.content = Array(12).fill({
+				backdrop: '',
+				poster: '',
+				tmdb_id: undefined,
+			});
 			this.calcWidth();
 		}, 0);
 	}

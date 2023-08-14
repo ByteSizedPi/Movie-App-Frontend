@@ -1,16 +1,9 @@
-import {
-	Component,
-	ElementRef,
-	Input,
-	OnDestroy,
-	OnInit,
-	ViewChild,
-} from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { delay, filter, switchMap, tap } from 'rxjs/operators';
 import { NavigationEventsService } from 'src/app/core/services/navigation-events.service';
+import { ColorsService } from 'src/app/modules/colors/colors.service';
 import { MovieModalService } from 'src/app/shared/components/movie-modal/movie-modal.service';
-import { ColorsService } from 'src/app/shared/services/colors.service';
 import { ImgCacheService } from '../../../core/services/img-cache.service';
 import { mod } from '../../services/Utils';
 import { MoviesService } from '../../services/movies.service';
@@ -30,15 +23,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
 	infoButton = InfoButtonProps;
 
 	@Input() asyncContent: Observable<PartialMovie[]>;
-	@ViewChild('bg') bg: ElementRef<HTMLImageElement>;
 
 	imgLoaded: Subject<boolean> = new Subject();
-	moviesReady: Subject<void> = new Subject();
 	offset = 0;
 	movies: PartialMovie[] = [];
 	showImg = false;
 	showText = false;
-	firstLoaded = false;
 	slideSub: Subscription;
 	curMovie: PartialMovie;
 
@@ -71,7 +61,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 				tap(this.trueImg),
 				delay(500),
 				tap(this.trueText),
-				delay(5_000),
+				delay(10_000),
 				tap(this.falseText),
 				delay(500),
 				tap(this.falseImg),

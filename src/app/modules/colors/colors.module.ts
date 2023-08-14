@@ -8,6 +8,6 @@ const exports = [TextColorPipe, DarkenColorPipe];
 @NgModule({
 	declarations: exports,
 	imports: [CommonModule],
-	exports: exports,
+	exports,
 })
 export class ColorsModule {}

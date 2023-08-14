@@ -44,7 +44,7 @@ export class NavigationEventsService {
 	registerListeners() {
 		this.listeners = {
 			BROWSE: this.register('/browse', [
-				this.modalService.onChange$,
+				this.modalService.toggleSubject$.pipe(map((v) => !!v)),
 				this.searchService.modalState$,
 			]),
 		};
@@ -61,10 +61,7 @@ export class NavigationEventsService {
 		const trig = triggers.map((t) => t.pipe(map((v) => !v)));
 
 		return combineLatest([this.navSubject, ...trig]).pipe(
-			map((events) => {
-				console.log(events);
-				return events.every((e) => e);
-			})
+			map((events) => events.every((e) => e))
 		);
 	}
 }

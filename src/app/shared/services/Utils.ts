@@ -9,71 +9,16 @@ export const onLoad = ({ target }: Event) => {
 	(<HTMLElement>target).style.opacity = '1';
 };
 
-// export const getTextColor = (hex: string = '#fff') => {
-// 	return getHex(hex, 1, 3) * 0.299 +
-// 		getHex(hex, 3, 5) * 0.587 +
-// 		getHex(hex, 5, 7) * 0.114 >
-// 		150
-// 		? '#000'
-// 		: '#fff';
-// };
-
-// const getHex = (hex: string, from: number, to: number) =>
-// 	parseInt(hex.substring(from, to), 16);
-
-// export const darkenColor = (hex: string = '#000000', perc: number) => {
-// 	let r = getHex(hex, 1, 3) * perc;
-// 	let g = getHex(hex, 3, 5) * perc;
-// 	let b = getHex(hex, 5, 7) * perc;
-// 	return `rgb(${r},${g},${b})`;
-// };
-
-// export const EMPTYMOVIE: Movie = {
-// 	yts_id: 0,
-// 	tmdb_id: 0,
-// 	imdb_id: '',
-// 	title: '',
-// 	year: 0,
-// 	rating: 0,
-// 	runtime: 0,
-// 	budget: 0,
-// 	revenue: 0,
-// 	genres: [],
-// 	summary: '',
-// 	description_full: '',
-// 	yt_trailer: '',
-// 	language: '',
-// 	mpa_rating: '',
-// 	poster: '',
-// 	backdrop: '',
-// 	cast: [],
-// 	torrents: [],
-// 	reviews: [],
-// 	providers: [],
-// };
-
-// export const EMPTYTMDB: TMDBMovie = {
-//   id: 0,
-//   imdb_id: "",
-//   poster_path: "",
-//   backdrop_path: "",
-//   overview: "",
-//   budget: 0,
-//   revenue: 0,
-//   reviews: [],
-//   providers: [],
-// };
-
 export const For = (fn: () => void, num: number) => {
 	for (let i = 0; i < num; i++) fn();
 };
 
-// export const Id = (s: string) => <HTMLElement>document.getElementById(s);
-// export const Id = <T = HTMLElement>(s: string) => <T>document.getElementById(s);
-// export const query = <T = HTMLElement>(s: string) =>
-// 	<T>document.querySelector(s);
-type qFunc = <T = HTMLElement>(s: string) => T;
-const { getElementById: preId, querySelector: preQuery } = document;
-export const Id = <qFunc>preId.bind(document);
-export const query = <qFunc>preQuery.bind(document);
-export const BODY = query<HTMLBodyElement>('body');
+export namespace DOM {
+	type qFunc = <T = HTMLElement>(s: string) => T;
+	const { getElementById: preId, querySelector: preQuery } = document;
+	export const Id = <qFunc>preId.bind(document);
+	export const query = <qFunc>preQuery.bind(document);
+	export const BODY = query<HTMLBodyElement>('body');
+	export const lockScroll = () => (BODY.style.overflowY = 'hidden');
+	export const allowScroll = () => (BODY.style.overflowY = 'auto');
+}

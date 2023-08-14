@@ -1,6 +1,5 @@
 <section *ngIf="curMovie">
 	<smart-img
-		#bg
 		[dims]="{ w: '100vw', h: 'var(--preview-height)' }"
 		[style.opacity]="+showImg"
 		[src]="curMovie.backdrop"

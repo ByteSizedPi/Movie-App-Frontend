@@ -1,7 +1,7 @@
 import { AfterContentInit, Component } from '@angular/core';
+import { ColorsService } from 'src/app/modules/colors/colors.service';
 import { PosterPipe } from 'src/app/modules/image/poster.pipe';
 import { Palette } from 'src/app/shared/models/Types';
-import { ColorsService } from '../../shared/services/colors.service';
 import { MoviesService } from '../../shared/services/movies.service';
 
 @Component({

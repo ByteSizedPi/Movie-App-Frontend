@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { skip } from 'rxjs';
+import { ColorsService } from 'src/app/modules/colors/colors.service';
 import { BackdropPipe } from 'src/app/modules/image/backdrop.pipe';
 import { Palette } from 'src/app/shared/models/Types';
-import { Id } from '../../services/Utils';
-import { ColorsService } from '../../services/colors.service';
+import { DOM } from '../../services/Utils';
 import { MoviesService } from '../../services/movies.service';
 import { UserService } from '../../services/user.service';
 import { Movie } from '../../types/Movie';
@@ -33,27 +34,28 @@ export class MovieModalComponent implements OnInit {
 	) {}
 
 	ngOnInit(): void {
-		const openSub = this.modal.open$.subscribe((movie) => {
-			this.content = movie;
-			if (this.content.torrents)
-				this.downloads = this.content.torrents.map((_) => false);
+		const modalSub = this.modal.toggleSubject$
+			.pipe(skip(1))
+			.subscribe((movie) => {
+				if (movie) {
+					this.content = movie;
+					if (this.content.torrents)
+						this.downloads = this.content.torrents.map((_) => false);
 
-			this.colors
-				.getPalette(new BackdropPipe().transform(this.content.poster, 0))
-				.subscribe((palette) => (this.curPalette = palette));
+					this.colors
+						.getPalette(new BackdropPipe().transform(this.content.poster, 0))
+						.subscribe((palette) => (this.curPalette = palette));
 
-			this.user.getShowListIDs().subscribe((ids) => {
-				this.isListed = ids.includes(this.content.imdb_id);
+					this.user.getShowListIDs().subscribe((ids) => {
+						this.isListed = ids.includes(this.content.imdb_id);
+					});
+				} else {
+					DOM.Id('movieModal').style.animation = 'modal-out 0.2s forwards';
+					DOM.Id('backdrop').style.animation = 'fade-out 0.2s forwards';
+
+					modalSub.unsubscribe();
+				}
 			});
-		});
-
-		const closeSub = this.modal.close$.subscribe(() => {
-			Id('movieModal').style.animation = 'modal-out 0.2s forwards';
-			Id('backdrop').style.animation = 'fade-out 0.2s forwards';
-
-			openSub.unsubscribe();
-			closeSub.unsubscribe();
-		});
 	}
 	toggleList() {
 		this.listPending = true;

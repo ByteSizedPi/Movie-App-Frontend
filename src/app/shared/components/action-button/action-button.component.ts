@@ -7,9 +7,9 @@ import {
 	Output,
 	ViewChild,
 } from '@angular/core';
+import { ColorsService } from 'src/app/modules/colors/colors.service';
 import { PosterPipe } from 'src/app/modules/image/poster.pipe';
 import { Palette, PaletteColor } from '../../models/Types';
-import { ColorsService } from '../../services/colors.service';
 
 export type ButtonProps = {
 	icon?: string;

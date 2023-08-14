@@ -1,6 +1,6 @@
-import { EventEmitter, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { BODY } from '../../services/Utils';
+import { DOM } from '../../services/Utils';
 import { MoviesService } from '../../services/movies.service';
 import { Movie } from '../../types/Movie';
 
@@ -8,19 +8,12 @@ import { Movie } from '../../types/Movie';
 	providedIn: 'root',
 })
 export class MovieModalService {
-	open$: EventEmitter<Movie> = new EventEmitter<Movie>();
-	close$: EventEmitter<void> = new EventEmitter<void>();
-
 	isOpen = false;
+	toggleSubject$: BehaviorSubject<Movie | undefined> = new BehaviorSubject<
+		Movie | undefined
+	>(undefined);
 
-	// onChange$: EventEmitter<boolean> = new EventEmitter<boolean>();
-	onChange$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-	// stateEvent = new Subject<Movie | null>();
-
-	constructor(private moviesService: MoviesService) {
-		this.open$.subscribe((_) => this.onChange$.next(true));
-		this.close$.subscribe((_) => this.onChange$.next(false));
-	}
+	constructor(private moviesService: MoviesService) {}
 
 	open(tmdb_id: number | undefined) {
 		if (tmdb_id === undefined) return;
@@ -33,9 +26,9 @@ export class MovieModalService {
 			() => {
 				this.isOpen = true;
 				this.moviesService.getMovieByTMDBId(tmdb_id).subscribe((movie) => {
-					this.open$.emit(movie);
+					this.toggleSubject$.next(movie);
 				});
-				this.lockScroll();
+				DOM.lockScroll();
 			},
 			this.isOpen ? 201 : 0
 		);
@@ -43,11 +36,8 @@ export class MovieModalService {
 
 	close = () => {
 		if (!this.isOpen) return;
-		this.close$.emit();
+		this.toggleSubject$.next(undefined);
 		setTimeout(() => (this.isOpen = false), 200);
-		this.allowScroll();
+		DOM.allowScroll();
 	};
-
-	lockScroll = () => (BODY.style.overflowY = 'hidden');
-	allowScroll = () => (BODY.style.overflowY = 'auto');
 }

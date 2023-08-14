@@ -1,9 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Id } from '../../services/Utils';
-import { MoviesService } from '../../services/movies.service';
+import { DOM } from '../../services/Utils';
 import { PartialMovie } from '../../types/Movie';
-import { MovieModalService } from '../movie-modal/movie-modal.service';
 import { SearchService } from './search.service';
 
 @Component({
@@ -18,11 +16,7 @@ export class SearchComponent implements OnDestroy {
 	gap: number = 4;
 	loaded = false;
 
-	constructor(
-		public searchService: SearchService,
-		private modal: MovieModalService,
-		private moviesService: MoviesService
-	) {
+	constructor(public searchService: SearchService) {
 		this.contentSub = this.searchService.searchEvent$.subscribe(
 			({ content$ }) => {
 				this.content = undefined;
@@ -40,7 +34,7 @@ export class SearchComponent implements OnDestroy {
 	}
 
 	resize() {
-		if (Id('search-container')) this.calcWidth();
+		if (DOM.Id('search-container')) this.calcWidth();
 	}
 
 	size(): { w: string; h: string } {
@@ -52,7 +46,7 @@ export class SearchComponent implements OnDestroy {
 	}
 
 	calcWidth() {
-		let width = Id('search-container').clientWidth;
+		let width = DOM.Id('search-container').clientWidth;
 		const max_width = 160;
 		this.itemsInARow = Math.ceil(width / max_width);
 		return Math.floor(width / this.itemsInARow - 2 * this.gap - 0.1);
