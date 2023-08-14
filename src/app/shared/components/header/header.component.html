@@ -1,22 +1,25 @@
 <section *ngIf="curMovie">
-	<img
+	<smart-img
 		#bg
-		id="bg"
-		[imgCache]="curMovie.backdrop | backdrop : 3"
+		[dims]="{ w: '100vw', h: 'var(--preview-height)' }"
 		[style.opacity]="+showImg"
-		priority
-		(load)="loadFirst()"
+		[src]="curMovie.backdrop"
+		type="backdrop"
+		(load)="imgLoaded.next(true)"
+		[resolution]="3"
 	/>
+
 	<div class="gradient w-100"></div>
 	<div id="title-container" class="column end w-100">
 		<div class="title" [style.opacity]="+showText">
-			<ng-container></ng-container>
 			<h1>{{ curMovie.title }}</h1>
-			<div class="button-container row">
-				<!-- [streamMovie]="curMovie" -->
-				<action-button [props]="playButton" [htmlImg]="bg"></action-button>
-				<!-- [viewMovie]="curMovie" -->
-				<action-button [props]="infoButton" [htmlImg]="bg"></action-button>
+			<div class="button-container row" *ngIf="showImg">
+				<action-button [props]="playButton" [imgSrc]="curMovie.backdrop" />
+				<action-button
+					[props]="infoButton"
+					[imgSrc]="curMovie.backdrop"
+					[viewMovie]="curMovie.tmdb_id"
+				/>
 			</div>
 		</div>
 	</div>

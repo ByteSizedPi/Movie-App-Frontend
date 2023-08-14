@@ -24,7 +24,7 @@ export const PlayButtonProps: ButtonProps = {
 };
 
 export const InfoButtonProps: ButtonProps = {
-	icon: 'fas fas-info',
+	icon: 'fas fa-info',
 	color: 'muted',
 	text: 'Info',
 };

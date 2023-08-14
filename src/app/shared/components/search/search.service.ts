@@ -1,11 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-	BehaviorSubject,
-	Observable,
-	Subject,
-	distinctUntilChanged,
-	startWith,
-} from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { MovieModalService } from 'src/app/shared/components/movie-modal/movie-modal.service';
 import { MoviesService } from '../../services/movies.service';
 import { PartialMovie } from '../../types/Movie';
@@ -19,7 +13,8 @@ export type Search = {
 	providedIn: 'root',
 })
 export class SearchService {
-	private _toggleModal$: Subject<boolean> = new Subject();
+	// private _toggleModal$: EventEmitter<boolean> = new EventEmitter();
+	private _toggleModal$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 	curQuery: string | undefined = undefined;
 	curState: boolean = false;
 
@@ -34,7 +29,7 @@ export class SearchService {
 	) {}
 
 	get modalState$() {
-		return this._toggleModal$.pipe(startWith(false), distinctUntilChanged());
+		return this._toggleModal$;
 	}
 
 	pushModalState(toggle: boolean) {

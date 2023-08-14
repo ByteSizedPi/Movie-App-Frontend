@@ -6,6 +6,7 @@
 	[style.borderRadius]="r"
 	loading="lazy"
 	[imgCache]="src | poster : resolution"
+	(load)="load.emit()"
 />
 
 <img
@@ -15,4 +16,5 @@
 	[imgCache]="src | backdrop : resolution"
 	[ngStyle]="toStyle()"
 	loading="lazy"
+	(load)="load.emit()"
 />

@@ -1,34 +1,70 @@
+import { Injectable } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 import {
-  combineLatest,
-  filter,
-  fromEvent,
-  Observable,
-  of,
-  Subscription,
+	BehaviorSubject,
+	Observable,
+	combineLatest,
+	filter,
+	fromEvent,
 } from 'rxjs';
-import { Injectable, EventEmitter } from '@angular/core';
-import { NavigationEnd, NavigationStart, Router } from '@angular/router';
-import { every, map, startWith, tap, toArray } from 'rxjs/operators';
+import { map, startWith, tap } from 'rxjs/operators';
+import { MovieModalService } from 'src/app/shared/components/movie-modal/movie-modal.service';
+import { SearchService } from '../../shared/components/search/search.service';
 
+export enum NavCollection {
+	BROWSE = '/browse',
+}
 @Injectable({
-  providedIn: 'root',
+	providedIn: 'root',
 })
 export class NavigationEventsService {
-  constructor(private router: Router) {}
+	docVisible: Observable<boolean>;
+	navEvent: Observable<string>;
+	navSubject: BehaviorSubject<boolean> = new BehaviorSubject(true);
+	listeners: { [key: string]: Observable<boolean> };
 
-  init(url: string, triggers: Observable<boolean>[] = []) {
-    let visState = fromEvent(document, 'visibilitychange').pipe(
-      map((_) => document.visibilityState === 'visible'),
-      startWith(true)
-    );
+	constructor(
+		private router: Router,
+		private modalService: MovieModalService,
+		private searchService: SearchService
+	) {
+		this.docVisible = fromEvent(document, 'visibilitychange').pipe(
+			map((_) => document.visibilityState === 'visible'),
+			startWith(true)
+		);
 
-    let navEvent = this.router.events.pipe(
-      filter((e) => e instanceof NavigationEnd),
-      map((event) => (<NavigationEnd>event).url === url)
-    );
+		this.navEvent = this.router.events.pipe(
+			filter((e) => e instanceof NavigationEnd),
+			map((event) => (<NavigationEnd>event).url)
+		);
 
-    return combineLatest([visState, navEvent, ...triggers]).pipe(
-      map((events) => events.every((e) => e))
-    );
-  }
+		this.registerListeners();
+	}
+
+	registerListeners() {
+		this.listeners = {
+			BROWSE: this.register('/browse', [
+				this.modalService.onChange$,
+				this.searchService.modalState$,
+			]),
+		};
+	}
+
+	register(url: string, triggers: Observable<boolean>[] = []) {
+		this.navEvent
+			.pipe(
+				map((event) => event === url),
+				tap((v) => this.navSubject.next(v))
+			)
+			.subscribe();
+
+		const trig = triggers.map((t) => t.pipe(map((v) => !v)));
+
+		return combineLatest([this.navSubject, ...trig]).pipe(
+			map((events) => {
+				console.log(events);
+				return events.every((e) => e);
+			})
+		);
+	}
 }

@@ -1,4 +1,11 @@
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import {
+	Component,
+	ElementRef,
+	EventEmitter,
+	Input,
+	Output,
+	ViewChild,
+} from '@angular/core';
 
 @Component({
 	selector: 'smart-img',
@@ -7,11 +14,11 @@ import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 })
 export class SmartImageComponent {
 	@Input() src: string;
-	// = 'assets/transparent.png';
 	@Input() type: 'poster' | 'backdrop' = 'poster';
 	@Input() resolution: number = 3;
 	@Input() dims: { w: string; h: string };
 	@Input() r: string = 'calc(var(--radius-s) + 2px)';
+	@Output() load: EventEmitter<void> = new EventEmitter();
 
 	@ViewChild('img') img: ElementRef<HTMLImageElement>;
 

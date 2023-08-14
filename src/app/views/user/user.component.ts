@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { UserService } from 'src/app/shared/services/user.service';
 import { Movie } from 'src/app/shared/types/Movie';
+import { ImgCacheService } from '../../core/services/img-cache.service';
 
 @Component({
 	selector: 'app-user',
@@ -12,7 +13,10 @@ export class UserComponent implements OnInit {
 	movies: Observable<Movie[]> | undefined = undefined;
 	bg: Movie;
 
-	constructor(public userService: UserService) {}
+	constructor(
+		public userService: UserService,
+		private cache: ImgCacheService
+	) {}
 
 	ngOnInit(): void {
 		this.getShowList();

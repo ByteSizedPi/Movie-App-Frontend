@@ -1,4 +1,5 @@
 import { EventEmitter, Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { BODY } from '../../services/Utils';
 import { MoviesService } from '../../services/movies.service';
 import { Movie } from '../../types/Movie';
@@ -12,10 +13,14 @@ export class MovieModalService {
 
 	isOpen = false;
 
-	onChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+	// onChange$: EventEmitter<boolean> = new EventEmitter<boolean>();
+	onChange$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 	// stateEvent = new Subject<Movie | null>();
 
-	constructor(private moviesService: MoviesService) {}
+	constructor(private moviesService: MoviesService) {
+		this.open$.subscribe((_) => this.onChange$.next(true));
+		this.close$.subscribe((_) => this.onChange$.next(false));
+	}
 
 	open(tmdb_id: number | undefined) {
 		if (tmdb_id === undefined) return;
